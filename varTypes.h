@@ -7,7 +7,7 @@
 #include <math.h>
 
 typedef struct varTypes {
-	int type; //1 to float, 2 to matriz
+	int type; //1 to float, 2 to matriz, 3 to error.
 	float* f;
 	Matriz *m;
 } varTypes;

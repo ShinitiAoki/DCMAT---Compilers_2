@@ -28,6 +28,10 @@ void setZero(float** matrix, int lines, int columns) {
     }
 }
 
+int getMatLines(Matriz* m){
+	return m->linhas;
+}
+
 void matriceBounds(int colunas, int* spaces){
 	printf("+-");
 	for(int i = 0; i < colunas; i++){
@@ -120,7 +124,11 @@ Matriz* multiplyMatrices(Matriz* m1, Matriz* m2) {
         fprintf(stderr, "Matrix dimensions do not match for multiplication\n");
         return NULL;
     }
-    Matriz* result = createMatriz((float**)malloc(m1->linhas * sizeof(float*)), m1->linhas, m2->colunas);
+	float** temp = (float**)malloc(10*sizeof(float*));
+	for(int i = 0; i < 10; i++){
+		temp[i] = (float*)malloc(10*sizeof(float));
+	}
+	Matriz* result = createMatriz(temp, m1->linhas, m2->colunas);
     for (int i = 0; i < m1->linhas; ++i) {
         result->mat[i] = (float*)malloc(m2->colunas * sizeof(float));
         for (int j = 0; j < m2->colunas; ++j) {
@@ -135,55 +143,62 @@ Matriz* multiplyMatrices(Matriz* m1, Matriz* m2) {
 
 // Function to multiply a matrix by a scalar
 Matriz* multiplyByScalar(Matriz* m, float scalar) {
-    Matriz* result = createMatriz((float**)malloc(m->linhas * sizeof(float*)), m->linhas, m->colunas);
+	float** temp = (float**)malloc(10*sizeof(float*));
+	for(int i = 0; i < 10; i++){
+		temp[i] = (float*)malloc(10*sizeof(float));
+	}
+    Matriz* result = createMatriz(temp, m->linhas, m->colunas);
     for (int i = 0; i < m->linhas; ++i) {
         result->mat[i] = (float*)malloc(m->colunas * sizeof(float));
         for (int j = 0; j < m->colunas; ++j) {
             result->mat[i][j] = m->mat[i][j] * scalar;
         }
     }
+	//free temp:
+	for(int i = 0; i < 10; i++){
+		free(temp[i]);
+	}
+	free(temp);
     return result;
 }
 
 
-float determinante(Matriz* m){
-	if (m->linhas != m->colunas) {
-        printf("Error: Determinant is only defined for square matrices.\n");
-        return 0.0; // Return 0 if matrix is not square
-    }
-
-    if (m->linhas == 1) {
-        return m->mat[0][0]; // Base case for 1x1 matrix
-    } else if (m->linhas == 2) {
-        return (m->mat[0][0] * m->mat[1][1]) - (m->mat[0][1] * m->mat[1][0]); // Base case for 2x2 matrix
-    } else {
-        float det = 0.0;
-        Matriz* submatrix = createMatriz(NULL, m->linhas - 1, m->colunas - 1);
-
-        for (int i = 0; i < m->linhas; i++) {
-            int subi = 0; // Submatrix's i index
-            for (int row = 1; row < m->linhas; row++) {
-                int subj = 0; // Submatrix's j index
-                for (int col = 0; col < m->colunas; col++) {
-                    if (col == i) // Skip the i-th column
-                        continue;
-                    submatrix->mat[subi][subj] = m->mat[row][col];
-                    subj++;
-                }
-                subi++;
-            }
-            det += (i % 2 == 0 ? 1 : -1) * m->mat[0][i] * determinante(submatrix);
-        }
-
-        // Free dynamically allocated memory
-        for (int i = 0; i < submatrix->linhas; i++) {
-            free(submatrix->mat[i]);
-        }
-        free(submatrix->mat);
-        free(submatrix);
-
-        return det;
-    }
+void getCofactor(Matriz* m, Matriz* temp, int p, int q, int n) {
+	int i = 0, j = 0;
+	for (int row = 0; row < n; row++) {
+		for (int col = 0; col < n; col++) {
+			if (row != p && col != q) {
+				temp->mat[i][j++] = m->mat[row][col];
+				if (j == n - 1) {
+					j = 0;
+					i++;
+				}
+			}
+		}
+	}
+}
+float determinant(Matriz* m, int n) {
+	float D = 0;
+	if (n == 1) {
+		return m->mat[0][0];
+	}
+	float** temp = (float**)malloc(10*sizeof(float*));
+	for(int i = 0; i < 10; i++){
+		temp[i] = (float*)malloc(10*sizeof(float));
+	}
+	Matriz* t = createMatriz(temp, m->linhas, m->colunas);
+	int sign = 1;
+	for (int f = 0; f < n; f++) {
+		getCofactor(m, t, 0, f, n);
+		D += sign * m->mat[0][f] * determinant(t, n - 1);
+		sign = -sign;
+	}
+	//free temp:
+	for(int i = 0; i < 10; i++){
+		free(temp[i]);
+	}
+	free(temp);
+	return D;
 }
 
 

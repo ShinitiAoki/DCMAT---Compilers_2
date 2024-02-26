@@ -172,7 +172,7 @@ show_settings: SHOW SETTINGS {printf("\n");}
 show_matrix: SHOW MATRIX { printFormatted(sampleText, float_precision); printf("finished show matrix\n");}
 ;
 solve_matrices: SOLVE LINEAR_SYSTEM {printf("finished solve\n");}
-		|SOLVE DETERMINANT { printf("%.*f\n", float_precision, determinante(sampleText));}
+		|SOLVE DETERMINANT { printf("%.*f\n", float_precision, determinant(sampleText, getMatLines(sampleText)));}
 ;
 reset_settings: RESET SETTINGS {printf("reseted settings\n");}
 ;

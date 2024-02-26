@@ -1366,7 +1366,7 @@ yyreduce:
 
   case 19: /* solve_matrices: SOLVE DETERMINANT  */
 #line 175 "bison.y"
-                                   { printf("%.*f\n", float_precision, determinante(sampleText));}
+                                   { printf("%.*f\n", float_precision, determinant(sampleText, getMatLines(sampleText)));}
 #line 1371 "bison.tab.c"
     break;
 

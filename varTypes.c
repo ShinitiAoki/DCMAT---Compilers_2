@@ -12,6 +12,7 @@ varTypes* createVarTypes(int type, void* content){
 	}
 	return newVar;
 }
+
 void printVarTypes(varTypes* content, int precision){
 	if(content == NULL){
 		return;
@@ -99,25 +100,25 @@ varTypes* Vsub(varTypes* a, varTypes* b){
 }
 varTypes* mult(varTypes* a, varTypes* b){
 	varTypes* result = NULL;
-	if(a == NULL || b == NULL){
-		return NULL;
-	}
-	if(a->type == 1 && b->type ==1){
-		printf("mult called\n");
-		float* temp = (float*)malloc(sizeof(float));
-		*temp = *(a->f) * *(b->f);
-		result = createVarTypes(1, temp);
-		return result;
-	}
-	else if(a->type == 2 && b->type == 2){
-		return NULL;
-		// Matriz* temp = NULL;
-		// result = multiplyMatrices(a->m, b->m);
-		// return result;
-	}
-	else{
-		printf("Invalid operation\n");
-		return NULL;
+	int key = a->type * 10 + b->type;
+	switch(key){
+		case 11:
+			float* temp = (float*)malloc(sizeof(float));
+			*temp = *(a->f) * *(b->f);
+			result = createVarTypes(1, temp);
+			return result;
+		case 22:
+			varTypes* twomat = createVarTypes(2, multiplyMatrices(a->m, b->m));
+			return twomat;
+		case 21:
+			varTypes* matscal = createVarTypes(2, multiplyByScalar(a->m, *(b->f)));
+			return matscal;
+		case 12:
+			varTypes* scalmat = createVarTypes(2, multiplyByScalar(b->m, *(a->f)));
+			return scalmat;
+		default:
+			printf("Invalid operation\n");
+			return NULL;
 	}
 
 }
