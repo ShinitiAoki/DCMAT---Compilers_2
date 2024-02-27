@@ -32,18 +32,25 @@ void insert_update(Hashtable* ht, char* key, varTypes* content){
 	}
 	int index = hash_function(key);
 	if(ht->table[index] == NULL){
+		printf("is null, creating new node\n");
 		ht->table[index] = createNode(key, content);
 	}
 	else{
+		printf("not null, searching for duplicate\n");
 		Node* temp = ht->table[index];
+		Node* prev = NULL;
 		while(temp != NULL){
+			printf("comparing %s with %s\n", temp->key, key);
 			if(strcmp(temp->key, key) == 0){
+				printf("found duplicate\n");
 				temp->content = content;
 				return;
 			}
+			prev = temp;
 			temp = temp->next;
 		}
-		temp->next = createNode(key, content);
+		temp = createNode(key, content);
+		prev->next = temp;
 	}
 }
 

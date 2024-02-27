@@ -18,6 +18,7 @@ Matriz* createMatriz(float** mat, int linhas, int colunas) {
     return m;
 }
 
+
 // Function to print a matrix
 
 void setZero(float** matrix, int lines, int columns) {
@@ -161,6 +162,7 @@ Matriz* multiplyByScalar(Matriz* m, float scalar) {
 	free(temp);
     return result;
 }
+
 
 
 void getCofactor(Matriz* m, Matriz* temp, int p, int q, int n) {

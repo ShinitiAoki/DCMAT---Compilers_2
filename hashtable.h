@@ -25,6 +25,7 @@ void insert_update(Hashtable* ht, char* key, varTypes* content);
 varTypes* search(Hashtable *ht, char *key);
 void delete_content(Hashtable *ht, char *key);
 void freeHashtable(Hashtable *ht);
+void showSymbols(Hashtable* ht);
 
 void printHashtable(Hashtable* ht, int precision);
 

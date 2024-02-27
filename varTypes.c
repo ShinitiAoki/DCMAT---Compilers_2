@@ -55,50 +55,60 @@ varTypes* Vsum(varTypes* a, varTypes* b){
 	if(a == NULL || b == NULL){
 		return NULL;
 	}
-	if(a->type == 1 && b->type ==1 ){
-		float* temp = (float*)malloc(sizeof(float));
-		*temp = *(a->f) + *(b->f);
-		result = createVarTypes(1, temp);
-		return result;
+	int key = a->type * 10 + b->type;
+	switch(key)
+	{
+		case 11:
+			float* temp = (float*)malloc(sizeof(float));
+			*temp = *(a->f) + *(b->f);
+			result = createVarTypes(1, temp);
+			return result;
+		break;
+		case 22:
+			varTypes* temp2 = createVarTypes(2, sumMatrices(a->m, b->m));
+			return temp2;
+		break;
+		case 12:
+		case 21:
+			printf("Invalid operation(Incompatible Types)\n");
+			return NULL;
+		break;
 	}
-	else if(a->type == 2 && b->type == 2){
-		return NULL;
-		// Matriz* temp = NULL;
-		// result = sumMatrices(a->m, b->m);
-		// return result;
-	}
-	else{
-		printf("Invalid operation\n");
-		return NULL;
-	}
+
 }
 varTypes* Vsub(varTypes* a, varTypes* b){
 	varTypes* result = NULL;
 	if(a == NULL || b == NULL){
 		return NULL;
 	}
-	if(a->type == 1 && b->type ==1){
-		printf("Vsub called\n");
-		printf("a: %f\n", *(a->f));
-		printf("b: %f\n", *(b->f));
-		float* temp = (float*)malloc(sizeof(float));
-		*temp = *(a->f) - *(b->f);
-		result = createVarTypes(1, temp);
+	int key = a->type * 10 + b->type;
+	switch (key)
+	{
+	case 11:
+		float* temp2 = (float*)malloc(sizeof(float));
+		*temp2 = *(a->f) - *(b->f);
+		result = createVarTypes(1, temp2);
 		return result;
-	}
-	else if(a->type == 2 && b->type == 2){
-		return NULL;
-		// Matriz* temp = NULL;
-		// result = subtractMatrices(a->m, b->m);
-		// return result;
-	}
-	else{
+		break;
+	case 22:
+		varTypes* temp3 = createVarTypes(2, subtractMatrices(a->m, b->m));
+		return temp3;
+		break;
+	case 21:
+	case 12:
+		printf("Invalid operation(Incompatible Types)\n");
+		break;
+	default:
 		printf("Invalid operation\n");
 		return NULL;
+		break;
 	}
 
 }
 varTypes* mult(varTypes* a, varTypes* b){
+	if(a == NULL || b == NULL){
+		return NULL;
+	}
 	varTypes* result = NULL;
 	int key = a->type * 10 + b->type;
 	switch(key){
