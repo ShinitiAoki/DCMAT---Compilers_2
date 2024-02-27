@@ -89,11 +89,19 @@ void printFormatted(Matriz* mat, int floatPrecision){
 
 
 Matriz* sumMatrices(Matriz* m1, Matriz* m2) {
+	if(m1 == NULL || m2 == NULL){
+		printf("any of them is null cannot sum\n");
+		return NULL;
+	}
     if (m1->linhas != m2->linhas || m1->colunas != m2->colunas) {
         fprintf(stderr, "Matrix dimensions do not match\n");
         return NULL;
     }
-    Matriz* result = createMatriz((float**)malloc(m1->linhas * sizeof(float*)), m1->linhas, m1->colunas);
+    float** temp = (float**)malloc(10*sizeof(float*));
+	for(int i = 0; i < 10; i++){
+		temp[i] = (float*)malloc(10*sizeof(float));
+	}
+	Matriz* result = createMatriz(temp, m1->linhas, m2->colunas);
     for (int i = 0; i < m1->linhas; ++i) {
         result->mat[i] = (float*)malloc(m1->colunas * sizeof(float));
         for (int j = 0; j < m1->colunas; ++j) {
@@ -109,7 +117,11 @@ Matriz* subtractMatrices(Matriz* m1, Matriz* m2) {
         fprintf(stderr, "Matrix dimensions do not match\n");
         return NULL;
     }
-    Matriz* result = createMatriz((float**)malloc(m1->linhas * sizeof(float*)), m1->linhas, m1->colunas);
+    float** temp = (float**)malloc(10*sizeof(float*));
+	for(int i = 0; i < 10; i++){
+		temp[i] = (float*)malloc(10*sizeof(float));
+	}
+	Matriz* result = createMatriz(temp, m1->linhas, m2->colunas);
     for (int i = 0; i < m1->linhas; ++i) {
         result->mat[i] = (float*)malloc(m1->colunas * sizeof(float));
         for (int j = 0; j < m1->colunas; ++j) {

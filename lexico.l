@@ -10,6 +10,9 @@
 	void empty_buffer(){
 		yy_delete_buffer(YY_CURRENT_BUFFER);
 	}
+
+	int lexical_error = 0;
+	
 %}
 
 %%
@@ -75,7 +78,7 @@ quit						{ return QUIT; }
 [0-9]+"."[0-9]+ 			{ yylval.fval = atof(yytext); return NUM_FLOAT;}
 [a-zA-Z]+[_0-9a-zA-Z]*		{ yylval.sval = strdup(yytext); return IDENTIFIER; }
 
-.							{ yylval.sval = strdup(yytext); return UNKNOW; }
+.							{ yylval.sval = strdup(yytext); lexical_error=1; return UNKNOW; }
 <<EOF>> { return EOL; }
 
 %%

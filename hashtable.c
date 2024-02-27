@@ -9,6 +9,7 @@ int hash_function(char* key) {
 	return hash % HASH_SIZE;
 }
 
+
 Node* createNode(char* key, varTypes* content){
 	Node* newNode = (Node*)malloc(sizeof(Node));
 	newNode->key = key;

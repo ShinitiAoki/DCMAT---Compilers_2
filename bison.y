@@ -10,6 +10,8 @@
 
 	int quit = 0;
 	extern int yylex();
+	extern int lexical_error;
+	extern char *yytext;
 	void input_scanner(char *input);
 	void empty_buffer();
 
@@ -37,8 +39,20 @@
 	int max_columns = 0;
 
 	void yyerror(void *s){
-		printf("Error\n");
+		if(lexical_error){
+			printf("Invalid Symbol: %s\n", yytext);
+			lexical_error = 0;
+		}
+		else if(strcmp(yytext, "\n") == 0){
+			printf("Syntax Error: Incomplete Command\n");
+		}
+		else{
+			printf("Syntax Error: [%s]\n", yytext);
+		}
 	};
+	void MatrizMaxBoundary(){
+		printf("ERROR: Matrix limits out of boundaries.\n");
+	}
 	
 	void show_Settings(){
 		printf("h_view_lo: %.*f\n", float_precision, h_view_lo);
@@ -143,14 +157,14 @@
 %token V_VIEW
 %token X
 
-%token UNKNOW
+%token <sval> UNKNOW
 
 %token END_OF_FILE
 
 %start begin
 
 %%
-begin: 
+begin:
 	| input SEMICOLON EOL{ return 0;}
 	| expresao_mat EOL { printVarTypes($1, float_precision); return 0;}
 ;
@@ -160,10 +174,10 @@ input:
 		| reset_settings {printf(" finished reset settings rule\n");}
 		| SHOW show_options {printf("finished show rule\n");}
 		| solve_matrices { printf("finished solve matrices rule\n");}
-	//	| matrix {printf(" finished matrix rule\n"); printf("%.*f\n", float_precision, $1); }
 		| SET setters {printf(" finished set rule\n");}
 		| IDENTIFIER { printVarTypes(search(hashtable,$1),float_precision);}
 		| IDENTIFIER ASSIGN assign_to { insert_update(hashtable, $1, $3); printf("finished assign\n");}
+		| PLOT plot_options { printf("finished plot\n");}
 		| QUIT {quit = 1; return 0;}
 ;
 show_options: SYMBOLS { showSymbols(hashtable); }
@@ -180,6 +194,8 @@ setters: AXIS set_axis {printf("finished axis\n");}
 		| INTEGRAL_STEPS NUM_INT {printf("finished integral steps\n");}
 		| H_VIEW set_h_view {printf("finished h_view\n");}
 		| V_VIEW set_v_view {printf("finished v_view\n");}
+		| FLOAT PRECISION NUM_INT { float_precision = $3;}
+		;
 set_h_view: number_handlers COLON number_handlers { 
 										h_view_lo = *getFloat($1);
 										h_view_hi = *getFloat($3);
@@ -202,6 +218,8 @@ number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1
 		| SUB EULER { float* wrapper = malloc(sizeof(float)); *wrapper = -2.71828182; varTypes* value = createVarTypes(1, wrapper); $$ = value; } //varTypes* value = createVarTypes(1,-2.71828182); $$ = value;
 
 ;
+plot_options:  {printf("finished plot\n");}
+			| L_BRACKET expresao_mat R_BRACKET {printf("finished plot w/ exp\n");}
 set_axis: ON { draw_axis=true;}
 		| OFF { draw_axis=false; }
 ;
@@ -248,14 +266,14 @@ numSequence: number_handlers { matrix[m_lines][m_columns] = *getFloat($1); m_col
 vecSequence: vector {  }
 		| vecSequence COMMA vector { }
 ;
-testMatrix: L_S_BRACKET vecSequence R_S_BRACKET { varTypes* dummy; printf("matrix Done!\n"); sampleText = createMatriz(matrix,max_lines,max_columns); dummy = createVarTypes(2,sampleText); $$ = dummy;}
+testMatrix: L_S_BRACKET vecSequence R_S_BRACKET { varTypes* dummy; if(max_lines>10||max_columns>10){MatrizMaxBoundary(); return 0;} sampleText = createMatriz(matrix,max_lines,max_columns); dummy = createVarTypes(2,sampleText); $$ = dummy;}
 ;
 %%
 
 int main(int argc, char **argv){
-	matrix = (float**)malloc(10*sizeof(float*));
-	for(int i = 0; i < 10; i++){
-		matrix[i] = (float*)malloc(10*sizeof(float));
+	matrix = (float**)malloc(20*sizeof(float*));
+	for(int i = 0; i < 20; i++){
+		matrix[i] = (float*)malloc(20*sizeof(float));
 	}
 	hashtable = createHashtable();
 	while(!quit){

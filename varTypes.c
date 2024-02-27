@@ -65,6 +65,7 @@ varTypes* Vsum(varTypes* a, varTypes* b){
 			return result;
 		break;
 		case 22:
+			printf("case 2 mats. initiate Vsum\n");
 			varTypes* temp2 = createVarTypes(2, sumMatrices(a->m, b->m));
 			return temp2;
 		break;
@@ -91,6 +92,7 @@ varTypes* Vsub(varTypes* a, varTypes* b){
 		return result;
 		break;
 	case 22:
+		printf("case 2 mats. initiate Vsub\n");
 		varTypes* temp3 = createVarTypes(2, subtractMatrices(a->m, b->m));
 		return temp3;
 		break;
