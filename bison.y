@@ -158,8 +158,7 @@ input:
 		| testMatrix { printf("finished matrix rule\n");}
 		| MATRIX EQUALS testMatrix { printf("finished matrix rule\n");}
 		| reset_settings {printf(" finished reset settings rule\n");}
-		| show_settings { show_Settings(); }
-		| show_matrix { printf("finished show matrix rule\n");}
+		| SHOW show_options {printf("finished show rule\n");}
 		| solve_matrices { printf("finished solve matrices rule\n");}
 	//	| matrix {printf(" finished matrix rule\n"); printf("%.*f\n", float_precision, $1); }
 		| SET setters {printf(" finished set rule\n");}
@@ -167,10 +166,10 @@ input:
 		| IDENTIFIER ASSIGN assign_to { insert_update(hashtable, $1, $3); printf("finished assign\n");}
 		| QUIT {quit = 1; return 0;}
 ;
-show_settings: SHOW SETTINGS {printf("\n");}
-;
-show_matrix: SHOW MATRIX { printFormatted(sampleText, float_precision); printf("finished show matrix\n");}
-;
+show_options: SYMBOLS { showSymbols(hashtable); }
+		| SETTINGS {printf("\n"); show_Settings();}
+		| MATRIX {printFormatted(sampleText, float_precision);}
+		;
 solve_matrices: SOLVE LINEAR_SYSTEM {printf("finished solve\n");}
 		|SOLVE DETERMINANT { printf("%.*f\n", float_precision, determinant(sampleText, getMatLines(sampleText)));}
 ;

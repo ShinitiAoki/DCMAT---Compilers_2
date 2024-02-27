@@ -36,7 +36,7 @@ void insert_update(Hashtable* ht, char* key, varTypes* content){
 	}
 	else{
 		Node* temp = ht->table[index];
-		while(temp->next != NULL){
+		while(temp != NULL){
 			if(strcmp(temp->key, key) == 0){
 				temp->content = content;
 				return;
@@ -127,6 +127,26 @@ void printHashtable(Hashtable* ht, int precision){
 		while(temp != NULL){
 			printf("%s:\n", temp->key);
 			printVarTypes(temp->content, precision);
+			temp = temp->next;
+		}
+	}
+}
+void showSymbols(Hashtable* ht){
+	printf("Printing Hashtable:\n");
+	if(ht == NULL){
+		return;
+	}
+	for(int i = 0; i < HASH_SIZE; i++){
+		Node* temp = ht->table[i];
+		while(temp != NULL){
+			varTypes* content = temp->content;
+			if(content->type == 1){
+				printf("%s - FLOAT\n", temp->key);
+			}
+			else if(content->type == 2){
+				printf("%s - ", temp->key);
+				printf("MATRIX [%d][%d]\n", content->m->linhas, content->m->colunas);
+			}
 			temp = temp->next;
 		}
 	}

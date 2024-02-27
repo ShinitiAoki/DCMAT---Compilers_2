@@ -215,25 +215,24 @@ enum yysymbol_kind_t
   YYSYMBOL_YYACCEPT = 60,                  /* $accept  */
   YYSYMBOL_begin = 61,                     /* begin  */
   YYSYMBOL_input = 62,                     /* input  */
-  YYSYMBOL_show_settings = 63,             /* show_settings  */
-  YYSYMBOL_show_matrix = 64,               /* show_matrix  */
-  YYSYMBOL_solve_matrices = 65,            /* solve_matrices  */
-  YYSYMBOL_reset_settings = 66,            /* reset_settings  */
-  YYSYMBOL_setters = 67,                   /* setters  */
-  YYSYMBOL_set_h_view = 68,                /* set_h_view  */
-  YYSYMBOL_set_v_view = 69,                /* set_v_view  */
-  YYSYMBOL_number_handlers = 70,           /* number_handlers  */
-  YYSYMBOL_set_axis = 71,                  /* set_axis  */
-  YYSYMBOL_set_erase_plot = 72,            /* set_erase_plot  */
-  YYSYMBOL_assign_to = 73,                 /* assign_to  */
-  YYSYMBOL_expresao_mat = 74,              /* expresao_mat  */
-  YYSYMBOL_fator = 75,                     /* fator  */
-  YYSYMBOL_expoente = 76,                  /* expoente  */
-  YYSYMBOL_termo = 77,                     /* termo  */
-  YYSYMBOL_vector = 78,                    /* vector  */
-  YYSYMBOL_numSequence = 79,               /* numSequence  */
-  YYSYMBOL_vecSequence = 80,               /* vecSequence  */
-  YYSYMBOL_testMatrix = 81                 /* testMatrix  */
+  YYSYMBOL_show_options = 63,              /* show_options  */
+  YYSYMBOL_solve_matrices = 64,            /* solve_matrices  */
+  YYSYMBOL_reset_settings = 65,            /* reset_settings  */
+  YYSYMBOL_setters = 66,                   /* setters  */
+  YYSYMBOL_set_h_view = 67,                /* set_h_view  */
+  YYSYMBOL_set_v_view = 68,                /* set_v_view  */
+  YYSYMBOL_number_handlers = 69,           /* number_handlers  */
+  YYSYMBOL_set_axis = 70,                  /* set_axis  */
+  YYSYMBOL_set_erase_plot = 71,            /* set_erase_plot  */
+  YYSYMBOL_assign_to = 72,                 /* assign_to  */
+  YYSYMBOL_expresao_mat = 73,              /* expresao_mat  */
+  YYSYMBOL_fator = 74,                     /* fator  */
+  YYSYMBOL_expoente = 75,                  /* expoente  */
+  YYSYMBOL_termo = 76,                     /* termo  */
+  YYSYMBOL_vector = 77,                    /* vector  */
+  YYSYMBOL_numSequence = 78,               /* numSequence  */
+  YYSYMBOL_vecSequence = 79,               /* vecSequence  */
+  YYSYMBOL_testMatrix = 80                 /* testMatrix  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -561,12 +560,12 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  57
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   132
+#define YYLAST   131
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  60
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  22
+#define YYNNTS  21
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  64
 /* YYNSTATES -- Number of states.  */
@@ -626,12 +625,12 @@ static const yytype_int8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,   153,   153,   154,   155,   157,   158,   159,   160,   161,
-     162,   163,   165,   166,   167,   168,   170,   172,   174,   175,
-     177,   179,   180,   181,   182,   183,   184,   190,   196,   197,
-     198,   199,   200,   201,   202,   203,   206,   207,   209,   210,
-     213,   214,   215,   218,   219,   220,   222,   223,   224,   225,
-     227,   228,   230,   231,   232,   233,   234,   235,   236,   240,
-     246,   247,   249,   250,   252
+     162,   164,   165,   166,   167,   169,   170,   171,   173,   174,
+     176,   178,   179,   180,   181,   182,   183,   189,   195,   196,
+     197,   198,   199,   200,   201,   202,   205,   206,   208,   209,
+     212,   213,   214,   217,   218,   219,   221,   222,   223,   224,
+     226,   227,   229,   230,   231,   232,   233,   234,   235,   239,
+     245,   246,   248,   249,   251
 };
 #endif
 
@@ -656,11 +655,10 @@ static const char *const yytname[] =
   "INTEGRATE", "LINEAR_SYSTEM", "MATRIX", "OFF", "ON", "PLOT", "PRECISION",
   "QUIT", "RESET", "RPN", "SEN", "SET", "SETTINGS", "SHOW", "SOLVE", "SUM",
   "SYMBOLS", "TAN", "V_VIEW", "X", "UNKNOW", "END_OF_FILE", "$accept",
-  "begin", "input", "show_settings", "show_matrix", "solve_matrices",
-  "reset_settings", "setters", "set_h_view", "set_v_view",
-  "number_handlers", "set_axis", "set_erase_plot", "assign_to",
-  "expresao_mat", "fator", "expoente", "termo", "vector", "numSequence",
-  "vecSequence", "testMatrix", YY_NULLPTR
+  "begin", "input", "show_options", "solve_matrices", "reset_settings",
+  "setters", "set_h_view", "set_v_view", "number_handlers", "set_axis",
+  "set_erase_plot", "assign_to", "expresao_mat", "fator", "expoente",
+  "termo", "vector", "numSequence", "vecSequence", "testMatrix", YY_NULLPTR
 };
 
 static const char *
@@ -670,7 +668,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-38)
+#define YYPACT_NINF (-36)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -684,18 +682,18 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -3,    68,    77,   -13,   -38,   -38,   -38,   -38,    17,    -4,
-      -2,    19,   -38,   -12,    28,    -5,   -33,   -27,    46,    53,
-      51,   -38,   -38,   -38,   -38,   -38,    91,   106,    67,   -38,
-     -38,   -38,   -38,   -38,   -38,   -38,    22,    62,   -38,    29,
-      49,    77,    77,    64,   -38,    77,    37,    40,    62,    73,
-      62,   -38,   -38,   -38,   -38,   -38,    77,   -38,    85,   -38,
-      77,    77,    77,    77,    77,    77,   -38,   -38,    41,   -38,
-     -13,    92,   -38,    59,   -38,   109,    52,   -38,   102,   -38,
-     -38,   -38,    75,   -38,   107,   -38,   -38,   108,   105,   -38,
-     106,   106,    67,    67,    67,   -38,   -38,    62,   -38,   -38,
-     -38,   -38,   -38,   -38,   -38,    62,    62,   -38,   -38,   -38,
-     -38
+       5,    83,    71,   -15,   -36,   -36,   -36,   -36,   -11,    -8,
+       4,    11,   -36,    27,    74,   -22,   -31,   -14,    88,   101,
+      84,   -36,   -36,   -36,   109,   110,   100,   -36,   -36,   -36,
+     -36,   -36,   -36,   -36,    36,    41,   -36,    17,    56,    71,
+      71,    93,   -36,    71,   -21,    72,    41,    98,    41,   -36,
+     -36,   -36,   -36,   -36,   -36,   -36,    71,   -36,   121,   -36,
+      71,    71,    71,    71,    71,    71,   -36,   -36,    51,   -36,
+     -15,   106,   -36,    43,   -36,   114,    39,   -36,    54,   -36,
+     -36,   -36,    33,   -36,   108,   -36,   -36,   111,    85,   -36,
+     110,   110,   100,   100,   100,   -36,   -36,    41,   -36,   -36,
+     -36,   -36,   -36,   -36,   -36,    41,    41,   -36,   -36,   -36,
+     -36
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -704,13 +702,13 @@ static const yytype_int8 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        2,     0,     0,     0,    32,    34,    28,    30,    55,     0,
-       0,     0,    15,     0,     0,     0,     0,     0,     0,     0,
-       0,     9,    10,    11,     8,    52,     0,    43,    46,    50,
-       6,    33,    35,    29,    31,    55,     0,     0,    62,     0,
-       0,     0,     0,     0,    20,     0,     0,     0,     0,     0,
-       0,    12,    17,    16,    19,    18,     0,     1,     0,     4,
+       0,     0,    14,     0,     0,     0,     0,     0,     0,     0,
+       0,    10,     8,    52,     0,    43,    46,    50,     6,    33,
+      35,    29,    31,    55,     0,     0,    62,     0,     0,     0,
+       0,     0,    20,     0,     0,     0,     0,     0,     0,    11,
+      17,    16,    15,     9,    19,    18,     0,     1,     0,     4,
        0,     0,     0,     0,     0,     0,    54,    60,     0,    64,
-       0,    52,    14,    42,    41,     0,     0,     7,     0,    37,
+       0,    52,    13,    42,    41,     0,     0,     7,     0,    37,
       36,    21,     0,    24,     0,    23,    25,     0,     0,     3,
       44,    45,    47,    48,    49,    51,    59,     0,    63,    53,
       56,    57,    39,    38,    22,     0,     0,    58,    61,    26,
@@ -720,17 +718,17 @@ static const yytype_int8 yydefact[] =
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,   -38,
-     -37,   -38,   -38,   -38,    -1,    63,    57,   -35,    56,   -38,
-     -38,   -25
+     -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,   -36,   -35,
+     -36,   -36,   -36,    -1,    31,    58,   -33,    59,   -36,   -36,
+      47
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,    19,    20,    21,    22,    23,    24,    51,    83,    86,
-      25,    81,   104,    72,    26,    27,    28,    29,    38,    68,
-      39,    30
+       0,    19,    20,    53,    21,    22,    49,    83,    86,    23,
+      81,   104,    72,    24,    25,    26,    27,    36,    68,    37,
+      28
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -738,38 +736,38 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      67,    36,     1,    71,    37,    54,    75,    52,    41,     2,
-      42,    84,    55,    87,     3,    74,    -5,    53,    77,     4,
-       5,     6,     7,     8,    46,     9,    60,    61,    10,    47,
-      95,    48,    49,    40,    43,    66,   -13,    11,    44,    73,
-      45,    76,    12,    13,    78,    14,    15,    69,    16,    17,
-      70,    50,    18,    57,     1,    88,    60,    61,    56,    96,
-     108,     2,    97,    60,    61,   100,     3,     1,   109,   110,
-      58,     4,     5,     6,     7,    35,    65,     9,    79,    80,
-      10,     3,     1,    82,     4,     5,     6,     7,    89,     2,
-      31,    32,    33,    34,    59,    60,    61,    14,    85,     4,
-       5,     6,     7,    35,    18,     9,    60,    61,    10,    60,
-      61,   -40,    62,    63,    64,   101,   102,   103,   107,    92,
-      93,    94,    99,    90,    91,    14,    98,   105,   106,     0,
-       0,     0,    18
+      67,    34,    35,    71,    39,    38,    75,    44,   -12,    50,
+       1,    84,    45,    87,    46,    47,    40,     2,    54,    51,
+      79,    80,     3,    52,    -5,    55,    41,     4,     5,     6,
+       7,     8,    95,     9,    48,    69,    10,    73,    70,    76,
+      60,    61,    78,    60,    61,    11,     1,    60,    61,    66,
+      12,    13,   100,    14,    15,    88,    16,    17,    60,    61,
+      18,     1,   108,     4,     5,     6,     7,   101,     2,    96,
+     109,   110,    97,     3,   102,   103,     1,    42,     4,     5,
+       6,     7,    33,     2,     9,    74,    43,    10,    77,    60,
+      61,    90,    91,     4,     5,     6,     7,    33,   107,     9,
+      56,    57,    10,    58,    14,    29,    30,    31,    32,    65,
+       3,    18,    59,    60,    61,    82,    62,    63,    64,    14,
+      92,    93,    94,    85,    89,   -40,    18,    99,   105,    98,
+       0,   106
 };
 
 static const yytype_int8 yycheck[] =
 {
-      37,     2,     5,    40,    17,    32,    41,    40,    12,    12,
-      12,    48,    39,    50,    17,    40,    19,    50,    43,    22,
-      23,    24,    25,    26,    29,    28,     4,     5,    31,    34,
-      65,    36,    37,    16,    15,    13,    19,    40,    50,    40,
-      12,    42,    45,    46,    45,    48,    49,    18,    51,    52,
-      21,    56,    55,     0,     5,    56,     4,     5,    12,    18,
-      97,    12,    21,     4,     5,    13,    17,     5,   105,   106,
-      19,    22,    23,    24,    25,    26,     9,    28,    41,    42,
-      31,    17,     5,    43,    22,    23,    24,    25,     3,    12,
-      22,    23,    24,    25,     3,     4,     5,    48,    25,    22,
-      23,    24,    25,    26,    55,    28,     4,     5,    31,     4,
-       5,    19,     6,     7,     8,    13,    41,    42,    13,    62,
-      63,    64,    13,    60,    61,    48,    70,    20,    20,    -1,
-      -1,    -1,    55
+      35,     2,    17,    38,    12,    16,    39,    29,    19,    40,
+       5,    46,    34,    48,    36,    37,    12,    12,    32,    50,
+      41,    42,    17,    54,    19,    39,    15,    22,    23,    24,
+      25,    26,    65,    28,    56,    18,    31,    38,    21,    40,
+       4,     5,    43,     4,     5,    40,     5,     4,     5,    13,
+      45,    46,    13,    48,    49,    56,    51,    52,     4,     5,
+      55,     5,    97,    22,    23,    24,    25,    13,    12,    18,
+     105,   106,    21,    17,    41,    42,     5,    50,    22,    23,
+      24,    25,    26,    12,    28,    38,    12,    31,    41,     4,
+       5,    60,    61,    22,    23,    24,    25,    26,    13,    28,
+      12,     0,    31,    19,    48,    22,    23,    24,    25,     9,
+      17,    55,     3,     4,     5,    43,     6,     7,     8,    48,
+      62,    63,    64,    25,     3,    19,    55,    13,    20,    70,
+      -1,    20
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
@@ -778,35 +776,35 @@ static const yytype_int8 yystos[] =
 {
        0,     5,    12,    17,    22,    23,    24,    25,    26,    28,
       31,    40,    45,    46,    48,    49,    51,    52,    55,    61,
-      62,    63,    64,    65,    66,    70,    74,    75,    76,    77,
-      81,    22,    23,    24,    25,    26,    74,    17,    78,    80,
-      16,    12,    12,    15,    50,    12,    29,    34,    36,    37,
-      56,    67,    40,    50,    32,    39,    12,     0,    19,     3,
-       4,     5,     6,     7,     8,     9,    13,    70,    79,    18,
-      21,    70,    73,    74,    81,    77,    74,    81,    74,    41,
-      42,    71,    43,    68,    70,    25,    69,    70,    74,     3,
-      75,    75,    76,    76,    76,    77,    18,    21,    78,    13,
-      13,    13,    41,    42,    72,    20,    20,    13,    70,    70,
-      70
+      62,    64,    65,    69,    73,    74,    75,    76,    80,    22,
+      23,    24,    25,    26,    73,    17,    77,    79,    16,    12,
+      12,    15,    50,    12,    29,    34,    36,    37,    56,    66,
+      40,    50,    54,    63,    32,    39,    12,     0,    19,     3,
+       4,     5,     6,     7,     8,     9,    13,    69,    78,    18,
+      21,    69,    72,    73,    80,    76,    73,    80,    73,    41,
+      42,    70,    43,    67,    69,    25,    68,    69,    73,     3,
+      74,    74,    75,    75,    75,    76,    18,    21,    77,    13,
+      13,    13,    41,    42,    71,    20,    20,    13,    69,    69,
+      69
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
        0,    60,    61,    61,    61,    62,    62,    62,    62,    62,
-      62,    62,    62,    62,    62,    62,    63,    64,    65,    65,
-      66,    67,    67,    67,    67,    67,    68,    69,    70,    70,
-      70,    70,    70,    70,    70,    70,    71,    71,    72,    72,
-      73,    73,    73,    74,    74,    74,    75,    75,    75,    75,
-      76,    76,    77,    77,    77,    77,    77,    77,    77,    78,
-      79,    79,    80,    80,    81
+      62,    62,    62,    62,    62,    63,    63,    63,    64,    64,
+      65,    66,    66,    66,    66,    66,    67,    68,    69,    69,
+      69,    69,    69,    69,    69,    69,    70,    70,    71,    71,
+      72,    72,    72,    73,    73,    73,    74,    74,    74,    74,
+      75,    75,    76,    76,    76,    76,    76,    76,    76,    77,
+      78,    78,    79,    79,    80
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     0,     3,     2,     0,     1,     3,     1,     1,
-       1,     1,     2,     1,     3,     1,     2,     2,     2,     2,
+       0,     2,     0,     3,     2,     0,     1,     3,     1,     2,
+       1,     2,     1,     3,     1,     1,     1,     1,     2,     2,
        2,     2,     3,     2,     2,     2,     3,     3,     1,     2,
        1,     2,     1,     2,     1,     2,     1,     1,     1,     1,
        1,     1,     1,     1,     3,     3,     1,     3,     3,     3,
@@ -1277,383 +1275,383 @@ yyreduce:
   case 3: /* begin: input SEMICOLON EOL  */
 #line 154 "bison.y"
                              { return 0;}
-#line 1281 "bison.tab.c"
+#line 1279 "bison.tab.c"
     break;
 
   case 4: /* begin: expresao_mat EOL  */
 #line 155 "bison.y"
                            { printVarTypes((yyvsp[-1].varTypes), float_precision); return 0;}
-#line 1287 "bison.tab.c"
+#line 1285 "bison.tab.c"
     break;
 
   case 6: /* input: testMatrix  */
 #line 158 "bison.y"
                              { printf("finished matrix rule\n");}
-#line 1293 "bison.tab.c"
+#line 1291 "bison.tab.c"
     break;
 
   case 7: /* input: MATRIX EQUALS testMatrix  */
 #line 159 "bison.y"
                                            { printf("finished matrix rule\n");}
-#line 1299 "bison.tab.c"
+#line 1297 "bison.tab.c"
     break;
 
   case 8: /* input: reset_settings  */
 #line 160 "bison.y"
                                  {printf(" finished reset settings rule\n");}
-#line 1305 "bison.tab.c"
+#line 1303 "bison.tab.c"
     break;
 
-  case 9: /* input: show_settings  */
+  case 9: /* input: SHOW show_options  */
 #line 161 "bison.y"
-                                { show_Settings(); }
-#line 1311 "bison.tab.c"
+                                    {printf("finished show rule\n");}
+#line 1309 "bison.tab.c"
     break;
 
-  case 10: /* input: show_matrix  */
+  case 10: /* input: solve_matrices  */
 #line 162 "bison.y"
-                              { printf("finished show matrix rule\n");}
-#line 1317 "bison.tab.c"
-    break;
-
-  case 11: /* input: solve_matrices  */
-#line 163 "bison.y"
                                  { printf("finished solve matrices rule\n");}
-#line 1323 "bison.tab.c"
+#line 1315 "bison.tab.c"
     break;
 
-  case 12: /* input: SET setters  */
-#line 165 "bison.y"
+  case 11: /* input: SET setters  */
+#line 164 "bison.y"
                               {printf(" finished set rule\n");}
-#line 1329 "bison.tab.c"
+#line 1321 "bison.tab.c"
     break;
 
-  case 13: /* input: IDENTIFIER  */
-#line 166 "bison.y"
+  case 12: /* input: IDENTIFIER  */
+#line 165 "bison.y"
                              { printVarTypes(search(hashtable,(yyvsp[0].sval)),float_precision);}
-#line 1335 "bison.tab.c"
+#line 1327 "bison.tab.c"
     break;
 
-  case 14: /* input: IDENTIFIER ASSIGN assign_to  */
-#line 167 "bison.y"
+  case 13: /* input: IDENTIFIER ASSIGN assign_to  */
+#line 166 "bison.y"
                                               { insert_update(hashtable, (yyvsp[-2].sval), (yyvsp[0].varTypes)); printf("finished assign\n");}
-#line 1341 "bison.tab.c"
+#line 1333 "bison.tab.c"
     break;
 
-  case 15: /* input: QUIT  */
-#line 168 "bison.y"
+  case 14: /* input: QUIT  */
+#line 167 "bison.y"
                        {quit = 1; return 0;}
-#line 1347 "bison.tab.c"
+#line 1339 "bison.tab.c"
     break;
 
-  case 16: /* show_settings: SHOW SETTINGS  */
+  case 15: /* show_options: SYMBOLS  */
+#line 169 "bison.y"
+                      { showSymbols(hashtable); }
+#line 1345 "bison.tab.c"
+    break;
+
+  case 16: /* show_options: SETTINGS  */
 #line 170 "bison.y"
-                             {printf("\n");}
-#line 1353 "bison.tab.c"
+                           {printf("\n"); show_Settings();}
+#line 1351 "bison.tab.c"
     break;
 
-  case 17: /* show_matrix: SHOW MATRIX  */
-#line 172 "bison.y"
-                         { printFormatted(sampleText, float_precision); printf("finished show matrix\n");}
-#line 1359 "bison.tab.c"
+  case 17: /* show_options: MATRIX  */
+#line 171 "bison.y"
+                         {printFormatted(sampleText, float_precision);}
+#line 1357 "bison.tab.c"
     break;
 
   case 18: /* solve_matrices: SOLVE LINEAR_SYSTEM  */
-#line 174 "bison.y"
+#line 173 "bison.y"
                                     {printf("finished solve\n");}
-#line 1365 "bison.tab.c"
+#line 1363 "bison.tab.c"
     break;
 
   case 19: /* solve_matrices: SOLVE DETERMINANT  */
-#line 175 "bison.y"
+#line 174 "bison.y"
                                    { printf("%.*f\n", float_precision, determinant(sampleText, getMatLines(sampleText)));}
-#line 1371 "bison.tab.c"
+#line 1369 "bison.tab.c"
     break;
 
   case 20: /* reset_settings: RESET SETTINGS  */
-#line 177 "bison.y"
+#line 176 "bison.y"
                                {printf("reseted settings\n");}
-#line 1377 "bison.tab.c"
+#line 1375 "bison.tab.c"
     break;
 
   case 21: /* setters: AXIS set_axis  */
-#line 179 "bison.y"
+#line 178 "bison.y"
                        {printf("finished axis\n");}
-#line 1383 "bison.tab.c"
+#line 1381 "bison.tab.c"
     break;
 
   case 22: /* setters: ERASE PLOT set_erase_plot  */
-#line 180 "bison.y"
+#line 179 "bison.y"
                                             {printf("finished erase plot\n");}
-#line 1389 "bison.tab.c"
+#line 1387 "bison.tab.c"
     break;
 
   case 23: /* setters: INTEGRAL_STEPS NUM_INT  */
-#line 181 "bison.y"
+#line 180 "bison.y"
                                          {printf("finished integral steps\n");}
-#line 1395 "bison.tab.c"
+#line 1393 "bison.tab.c"
     break;
 
   case 24: /* setters: H_VIEW set_h_view  */
-#line 182 "bison.y"
+#line 181 "bison.y"
                                     {printf("finished h_view\n");}
-#line 1401 "bison.tab.c"
+#line 1399 "bison.tab.c"
     break;
 
   case 25: /* setters: V_VIEW set_v_view  */
-#line 183 "bison.y"
+#line 182 "bison.y"
                                     {printf("finished v_view\n");}
-#line 1407 "bison.tab.c"
+#line 1405 "bison.tab.c"
     break;
 
   case 26: /* set_h_view: number_handlers COLON number_handlers  */
-#line 184 "bison.y"
+#line 183 "bison.y"
                                                   { 
 										h_view_lo = *getFloat((yyvsp[-2].varTypes));
 										h_view_hi = *getFloat((yyvsp[0].varTypes));
 										("h_view set!\n");
 										}
-#line 1417 "bison.tab.c"
+#line 1415 "bison.tab.c"
     break;
 
   case 27: /* set_v_view: number_handlers COLON number_handlers  */
-#line 190 "bison.y"
+#line 189 "bison.y"
                                                   {
 										v_view_lo = *getFloat((yyvsp[-2].varTypes));
 										v_view_hi = *getFloat((yyvsp[0].varTypes));
 										printf("v_view set!\n");
 }
-#line 1427 "bison.tab.c"
+#line 1425 "bison.tab.c"
     break;
 
   case 28: /* number_handlers: NUM_FLOAT  */
-#line 196 "bison.y"
+#line 195 "bison.y"
                            { float* wrapper= malloc(sizeof(float)); *wrapper= (yyvsp[0].fval); varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value; }
-#line 1433 "bison.tab.c"
+#line 1431 "bison.tab.c"
     break;
 
   case 29: /* number_handlers: SUB NUM_FLOAT  */
-#line 197 "bison.y"
+#line 196 "bison.y"
                                 { float* wrapper= malloc(sizeof(float)); *wrapper= -(yyvsp[0].fval); varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value; }
-#line 1439 "bison.tab.c"
+#line 1437 "bison.tab.c"
     break;
 
   case 30: /* number_handlers: NUM_INT  */
-#line 198 "bison.y"
+#line 197 "bison.y"
                           { float* wrapper= malloc(sizeof(float)); *wrapper= (float)(yyvsp[0].ival); varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value; }
-#line 1445 "bison.tab.c"
+#line 1443 "bison.tab.c"
     break;
 
   case 31: /* number_handlers: SUB NUM_INT  */
-#line 199 "bison.y"
+#line 198 "bison.y"
                               { float* wrapper= malloc(sizeof(float)); *wrapper= (float)(-(yyvsp[0].ival)); varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value; }
-#line 1451 "bison.tab.c"
+#line 1449 "bison.tab.c"
     break;
 
   case 32: /* number_handlers: PI  */
-#line 200 "bison.y"
+#line 199 "bison.y"
                      { float* wrapper = malloc(sizeof(float)); *wrapper = 3.14159265; varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value;}
-#line 1457 "bison.tab.c"
+#line 1455 "bison.tab.c"
     break;
 
   case 33: /* number_handlers: SUB PI  */
-#line 201 "bison.y"
+#line 200 "bison.y"
                          { float* wrapper = malloc(sizeof(float)); *wrapper = -3.14159265; varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value; }
-#line 1463 "bison.tab.c"
+#line 1461 "bison.tab.c"
     break;
 
   case 34: /* number_handlers: EULER  */
-#line 202 "bison.y"
+#line 201 "bison.y"
                         { float* wrapper = malloc(sizeof(float)); *wrapper = 2.71828182; varTypes* value = createVarTypes(1,wrapper); (yyval.varTypes) = value; }
-#line 1469 "bison.tab.c"
+#line 1467 "bison.tab.c"
     break;
 
   case 35: /* number_handlers: SUB EULER  */
-#line 203 "bison.y"
+#line 202 "bison.y"
                             { float* wrapper = malloc(sizeof(float)); *wrapper = -2.71828182; varTypes* value = createVarTypes(1, wrapper); (yyval.varTypes) = value; }
-#line 1475 "bison.tab.c"
+#line 1473 "bison.tab.c"
     break;
 
   case 36: /* set_axis: ON  */
-#line 206 "bison.y"
+#line 205 "bison.y"
              { draw_axis=true;}
-#line 1481 "bison.tab.c"
+#line 1479 "bison.tab.c"
     break;
 
   case 37: /* set_axis: OFF  */
-#line 207 "bison.y"
+#line 206 "bison.y"
                       { draw_axis=false; }
-#line 1487 "bison.tab.c"
+#line 1485 "bison.tab.c"
     break;
 
   case 38: /* set_erase_plot: ON  */
-#line 209 "bison.y"
+#line 208 "bison.y"
                    { erase_plots=true;}
-#line 1493 "bison.tab.c"
+#line 1491 "bison.tab.c"
     break;
 
   case 39: /* set_erase_plot: OFF  */
-#line 210 "bison.y"
+#line 209 "bison.y"
                               { erase_plots=false; }
-#line 1499 "bison.tab.c"
+#line 1497 "bison.tab.c"
     break;
 
   case 40: /* assign_to: number_handlers  */
-#line 213 "bison.y"
+#line 212 "bison.y"
                            { (yyval.varTypes) = (yyvsp[0].varTypes);}
-#line 1505 "bison.tab.c"
+#line 1503 "bison.tab.c"
     break;
 
   case 41: /* assign_to: testMatrix  */
-#line 214 "bison.y"
+#line 213 "bison.y"
                              {printf("matrix assigned!\n"); (yyval.varTypes) = (yyvsp[0].varTypes);}
-#line 1511 "bison.tab.c"
+#line 1509 "bison.tab.c"
     break;
 
   case 42: /* assign_to: expresao_mat  */
-#line 215 "bison.y"
+#line 214 "bison.y"
                               {printf("expression assigned!\n"); (yyval.varTypes) = (yyvsp[0].varTypes);}
-#line 1517 "bison.tab.c"
+#line 1515 "bison.tab.c"
     break;
 
   case 43: /* expresao_mat: fator  */
-#line 218 "bison.y"
+#line 217 "bison.y"
                     { (yyval.varTypes)=(yyvsp[0].varTypes); }
-#line 1523 "bison.tab.c"
+#line 1521 "bison.tab.c"
     break;
 
   case 44: /* expresao_mat: expresao_mat ADD fator  */
-#line 219 "bison.y"
+#line 218 "bison.y"
                                          { varTypes* val1 = (yyvsp[-2].varTypes); varTypes* val2 = (yyvsp[0].varTypes); (yyval.varTypes) = Vsum(val1,val2); }
-#line 1529 "bison.tab.c"
+#line 1527 "bison.tab.c"
     break;
 
   case 45: /* expresao_mat: expresao_mat SUB fator  */
-#line 220 "bison.y"
+#line 219 "bison.y"
                                          { varTypes* val1 = (yyvsp[-2].varTypes); varTypes* val2 = (yyvsp[0].varTypes); (yyval.varTypes) = Vsub(val1,val2); }
-#line 1535 "bison.tab.c"
+#line 1533 "bison.tab.c"
     break;
 
   case 46: /* fator: expoente  */
-#line 222 "bison.y"
+#line 221 "bison.y"
                 { (yyval.varTypes) = (yyvsp[0].varTypes); }
-#line 1541 "bison.tab.c"
+#line 1539 "bison.tab.c"
     break;
 
   case 47: /* fator: fator MULT expoente  */
-#line 223 "bison.y"
+#line 222 "bison.y"
                                       { varTypes* val1 = (yyvsp[-2].varTypes); varTypes* val2 = (yyvsp[0].varTypes); (yyval.varTypes) = mult(val1,val2); }
-#line 1547 "bison.tab.c"
+#line 1545 "bison.tab.c"
     break;
 
   case 48: /* fator: fator DIV expoente  */
-#line 224 "bison.y"
+#line 223 "bison.y"
                                      { varTypes* val1 = (yyvsp[-2].varTypes); varTypes* val2 = (yyvsp[0].varTypes); (yyval.varTypes) = divi(val1,val2); }
-#line 1553 "bison.tab.c"
+#line 1551 "bison.tab.c"
     break;
 
   case 49: /* fator: fator MOD expoente  */
-#line 225 "bison.y"
+#line 224 "bison.y"
                                      { varTypes* val1 = (yyvsp[-2].varTypes); varTypes* val2 = (yyvsp[0].varTypes); (yyval.varTypes) = modules(val1,val2); }
-#line 1559 "bison.tab.c"
+#line 1557 "bison.tab.c"
     break;
 
   case 50: /* expoente: termo  */
-#line 227 "bison.y"
+#line 226 "bison.y"
                 { (yyval.varTypes) = (yyvsp[0].varTypes); }
-#line 1565 "bison.tab.c"
+#line 1563 "bison.tab.c"
     break;
 
   case 51: /* expoente: expoente EXP termo  */
-#line 228 "bison.y"
+#line 227 "bison.y"
                                     { varTypes* val1 = (yyvsp[-2].varTypes); varTypes* val2 = (yyvsp[0].varTypes); (yyval.varTypes) = powe(val1,val2); }
-#line 1571 "bison.tab.c"
+#line 1569 "bison.tab.c"
     break;
 
   case 52: /* termo: number_handlers  */
-#line 230 "bison.y"
+#line 229 "bison.y"
                        { (yyval.varTypes) = (yyvsp[0].varTypes); }
-#line 1577 "bison.tab.c"
+#line 1575 "bison.tab.c"
     break;
 
   case 53: /* termo: ABS L_BRACKET termo R_BRACKET  */
-#line 231 "bison.y"
+#line 230 "bison.y"
                                                 { (yyval.varTypes) = Vabs((yyvsp[-1].varTypes)); }
-#line 1583 "bison.tab.c"
+#line 1581 "bison.tab.c"
     break;
 
   case 54: /* termo: L_BRACKET expresao_mat R_BRACKET  */
-#line 232 "bison.y"
+#line 231 "bison.y"
                                                    { (yyval.varTypes) = (yyvsp[-1].varTypes); }
-#line 1589 "bison.tab.c"
+#line 1587 "bison.tab.c"
     break;
 
   case 55: /* termo: IDENTIFIER  */
-#line 233 "bison.y"
+#line 232 "bison.y"
                              { (yyval.varTypes) = search(hashtable,(yyvsp[0].sval)); }
-#line 1595 "bison.tab.c"
+#line 1593 "bison.tab.c"
     break;
 
   case 56: /* termo: COS L_BRACKET expresao_mat R_BRACKET  */
-#line 234 "bison.y"
+#line 233 "bison.y"
                                                        { (yyval.varTypes) = Vcos((yyvsp[-1].varTypes)); }
-#line 1601 "bison.tab.c"
+#line 1599 "bison.tab.c"
     break;
 
   case 57: /* termo: SEN L_BRACKET expresao_mat R_BRACKET  */
-#line 235 "bison.y"
+#line 234 "bison.y"
                                                        { (yyval.varTypes) = Vsin((yyvsp[-1].varTypes)); }
-#line 1607 "bison.tab.c"
+#line 1605 "bison.tab.c"
     break;
 
   case 58: /* termo: TAN L_BRACKET expresao_mat R_BRACKET  */
-#line 236 "bison.y"
+#line 235 "bison.y"
                                                        { (yyval.varTypes) = Vtan((yyvsp[-1].varTypes)); }
-#line 1613 "bison.tab.c"
+#line 1611 "bison.tab.c"
     break;
 
   case 59: /* vector: L_S_BRACKET numSequence R_S_BRACKET  */
-#line 240 "bison.y"
+#line 239 "bison.y"
                                             {   m_lines++;
 												max_columns = max(max_columns,m_columns);
 												max_lines = m_lines;
 												m_columns=0;
 											}
-#line 1623 "bison.tab.c"
+#line 1621 "bison.tab.c"
     break;
 
   case 60: /* numSequence: number_handlers  */
-#line 246 "bison.y"
+#line 245 "bison.y"
                              { matrix[m_lines][m_columns] = *getFloat((yyvsp[0].varTypes)); m_columns++; }
-#line 1629 "bison.tab.c"
+#line 1627 "bison.tab.c"
     break;
 
   case 61: /* numSequence: numSequence COMMA number_handlers  */
-#line 247 "bison.y"
+#line 246 "bison.y"
                                                     { matrix[m_lines][m_columns] = *getFloat((yyvsp[0].varTypes)); m_columns++;}
-#line 1635 "bison.tab.c"
+#line 1633 "bison.tab.c"
     break;
 
   case 62: /* vecSequence: vector  */
-#line 249 "bison.y"
+#line 248 "bison.y"
                     {  }
-#line 1641 "bison.tab.c"
+#line 1639 "bison.tab.c"
     break;
 
   case 63: /* vecSequence: vecSequence COMMA vector  */
-#line 250 "bison.y"
+#line 249 "bison.y"
                                            { }
-#line 1647 "bison.tab.c"
+#line 1645 "bison.tab.c"
     break;
 
   case 64: /* testMatrix: L_S_BRACKET vecSequence R_S_BRACKET  */
-#line 252 "bison.y"
+#line 251 "bison.y"
                                                 { varTypes* dummy; printf("matrix Done!\n"); sampleText = createMatriz(matrix,max_lines,max_columns); dummy = createVarTypes(2,sampleText); (yyval.varTypes) = dummy;}
-#line 1653 "bison.tab.c"
+#line 1651 "bison.tab.c"
     break;
 
 
-#line 1657 "bison.tab.c"
+#line 1655 "bison.tab.c"
 
       default: break;
     }
@@ -1846,7 +1844,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 254 "bison.y"
+#line 253 "bison.y"
 
 
 int main(int argc, char **argv){
