@@ -266,7 +266,8 @@ varTypes* Vneg(varTypes* a){
 		return result;
 	}
 	else if(a->type == 2){
-		return multiplyByScalar(a->m, -1);
+		varTypes* result = createVarTypes(2, multiplyByScalar(a->m, -1));
+		return result;
 	}
 	else{
 		printf("Invalid operation\n");
@@ -301,11 +302,61 @@ varTypes* Vabs(varTypes* a){
 
 
 varTypes* Vsin(varTypes* a){
+	if(a == NULL){
+		return NULL;
+	}
+	if(a->type == 1){
+		float* temp = (float*)malloc(sizeof(float));
+		*temp = sin(*(a->f));
+		varTypes* result = createVarTypes(1, temp);
+		return result;
+	}
+	else if(a->type == 2){
+		printf("Incorrect type for operator 'sen' - have MATRIX\n");
+		return NULL;
+	}
+	else{
+		printf("Invalid operation\n");
+		return NULL;
+	}
 	return NULL;
 }
 varTypes* Vcos(varTypes* a){
-	return NULL;
+	if(a == NULL){
+		return NULL;
+	}
+	if(a->type == 1){
+		float* temp = (float*)malloc(sizeof(float));
+		*temp = cos(*(a->f));
+		varTypes* result = createVarTypes(1, temp);
+		return result;
+	}
+	else if(a->type == 2){
+		printf("Incorrect type for operator 'cos' - have MATRIX\n");
+		return NULL;
+	}
+	else{
+		printf("Invalid operation\n");
+		return NULL;
+	}
 }
 varTypes* Vtan(varTypes* a){
+	if(a == NULL){
+		return NULL;
+	}
+	if(a->type == 1){
+		float* temp = (float*)malloc(sizeof(float));
+		*temp = tan(*(a->f));
+		varTypes* result = createVarTypes(1, temp);
+		return result;
+	}
+	else if(a->type == 2){
+		printf("Incorrect type for operator 'tan' - have MATRIX\n");
+		return NULL;
+	}
+	else{
+		printf("Invalid operation\n");
+		return NULL;
+	}
 	return NULL;
 }

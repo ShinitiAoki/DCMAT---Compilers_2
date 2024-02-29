@@ -97,8 +97,6 @@
 %token MOD
 %token EXP
 
-%token UADD
-%token USUB
 
 %token L_BRACKET
 %token R_BRACKET
@@ -116,7 +114,6 @@
 %token EULER
 %token <fval> NUM_FLOAT
 %token <ival> NUM_INT
-%type <fval> matrix
 %type <varTypes> assign_to
 %type <varTypes> number_handlers
 /* %type <fval> funcao_mat */
@@ -124,8 +121,6 @@
 %type <varTypes> fator
 %type <varTypes> termo
 %type <varTypes> expoente
-%type <fval> matrix_content
-%type <fval> matrix_line
 /* %type <fval> testing */
 %type <fval> vector
 %type <fval> numSequence
@@ -143,7 +138,6 @@
 %token CONNECTED_DOTS
 %token COS
 %token DETERMINANT
-%token E
 %token ERASE
 %token FLOAT
 %token H_VIEW
@@ -181,7 +175,7 @@ begin:
 	| expresao_mat EOL { printVarTypes($1, float_precision); return 0;}
 ;
 input:
-		| testMatrix { printf("finished matrix rule\n");}
+		| functions {printf("finished functions\n");}
 		| MATRIX EQUALS testMatrix { lastInserted = $3; printf("finished matrix rule\n");}
 		| reset_settings {printf(" finished reset settings rule\n");}
 		| SHOW show_options {printf("finished show rule\n");}
@@ -190,31 +184,38 @@ input:
 		| IDENTIFIER { printIdentifier(search(hashtable,$1), float_precision, $1); }
 		| IDENTIFIER ASSIGN assign_to { insert_update(hashtable, $1, $3); printf("finished assign\n");}
 		| PLOT plot_options { printf("finished plot\n");}
+		| ABOUT {printf("finished about\n");}
 		| QUIT {quit = 1; return 0;}
 ;
+functions: INTEGRATE {printf("finished integrate\n");}
+		| RPN {printf("finished rpn\n");}
+		| SUM {printf("finished sum\n");}
+		;
 show_options: SYMBOLS { showSymbols(hashtable); }
 		| SETTINGS {printf("\n"); show_Settings();}
 		| MATRIX { if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;} printFormatted(getMatriz(lastInserted), float_precision);}
 		;
-solve_matrices: SOLVE LINEAR_SYSTEM {if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;} printLinearSystemSolution(LinearSystem(getMatriz(lastInserted)), float_precision);}
+solve_matrices: SOLVE LINEAR_SYSTEM {if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;}if(!linearsysFormat(getMatriz(lastInserted))){printf("Matrix format incorrect!\n");return 0;} printLinearSystemSolution(LinearSystem(getMatriz(lastInserted)), float_precision);}
 		|SOLVE DETERMINANT { if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;}if(!isSquare(getMatriz(lastInserted))){printf("Matrix format incorrect!\n"); return 0;} ;printf("%.*f\n", float_precision, determinant(getMatriz(lastInserted), getMatLines(getMatriz(lastInserted))));}
 ;
 reset_settings: RESET SETTINGS { reset_settings(); }
 ;
 setters: AXIS set_axis {printf("finished axis\n");}
 		| ERASE PLOT set_erase_plot {printf("finished erase plot\n");}
-		| INTEGRAL_STEPS NUM_INT {printf("finished integral steps\n");}
+		| INTEGRAL_STEPS number_handlers { if(*getFloat($2) <= 0){printf("integral_steps must be a positive non-zero integer\n"); return 0;} integral_steps = *getFloat($2);}
 		| H_VIEW set_h_view {printf("finished h_view\n");}
 		| V_VIEW set_v_view {printf("finished v_view\n");}
 		| FLOAT PRECISION NUM_INT { if($3 < 0 || $3 > 8){printf("ERROR: float precision must be from 0 to 8\n"); return 0;} float_precision = $3;}
 		;
 set_h_view: number_handlers COLON number_handlers { 
+										if(*getFloat($1) >= *getFloat($3)){printf("ERROR: h_view_lo must be smaller than h_view_hi\n"); return 0;}
 										h_view_lo = *getFloat($1);
 										h_view_hi = *getFloat($3);
 										("h_view set!\n");
 										}
 ;
 set_v_view: number_handlers COLON number_handlers {
+										if(*getFloat($1) >= *getFloat($3)){printf("ERROR: v_view_lo must be smaller than v_view_hi\n"); return 0;}
 										v_view_lo = *getFloat($1);
 										v_view_hi = *getFloat($3);
 										printf("v_view set!\n");
@@ -233,9 +234,10 @@ number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1
 		| IDENTIFIER { if(search(hashtable,$1) == NULL){printf("Undefined Symbol [%s]\n", $1); return 0;} else{ $$ = search(hashtable,$1);}; }
 		| SUB IDENTIFIER { varTypes* value = search(hashtable,$2); $$ = Vneg(value); }
 		| X { printf("X value\n"); $$ == NULL;}
-;
+		;
 plot_options:  {printf("finished plot\n");}
 			| L_BRACKET expresao_mat R_BRACKET {printf("finished plot w/ exp\n");}
+			;
 set_axis: ON { draw_axis=true;}
 		| OFF { draw_axis=false; }
 ;
@@ -307,8 +309,8 @@ int main(int argc, char **argv){
 		yyparse();
 		empty_buffer();
 	}
-	printf("Bye!\n");
-	printHashtable(hashtable, float_precision);
+	/* printf("Bye!\n");
+	printHashtable(hashtable, float_precision); */
 	freeHashtable(hashtable);
 
 	return 0;

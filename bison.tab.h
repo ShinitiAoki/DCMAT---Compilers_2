@@ -61,56 +61,53 @@ extern int yydebug;
     DIV = 262,                     /* DIV  */
     MOD = 263,                     /* MOD  */
     EXP = 264,                     /* EXP  */
-    UADD = 265,                    /* UADD  */
-    USUB = 266,                    /* USUB  */
-    L_BRACKET = 267,               /* L_BRACKET  */
-    R_BRACKET = 268,               /* R_BRACKET  */
-    INTERVAL = 269,                /* INTERVAL  */
-    EQUALS = 270,                  /* EQUALS  */
-    ASSIGN = 271,                  /* ASSIGN  */
-    L_S_BRACKET = 272,             /* L_S_BRACKET  */
-    R_S_BRACKET = 273,             /* R_S_BRACKET  */
-    SEMICOLON = 274,               /* SEMICOLON  */
-    COLON = 275,                   /* COLON  */
-    COMMA = 276,                   /* COMMA  */
-    PI = 277,                      /* PI  */
-    EULER = 278,                   /* EULER  */
-    NUM_FLOAT = 279,               /* NUM_FLOAT  */
-    NUM_INT = 280,                 /* NUM_INT  */
-    IDENTIFIER = 281,              /* IDENTIFIER  */
-    ABOUT = 282,                   /* ABOUT  */
-    ABS = 283,                     /* ABS  */
-    AXIS = 284,                    /* AXIS  */
-    CONNECTED_DOTS = 285,          /* CONNECTED_DOTS  */
-    COS = 286,                     /* COS  */
-    DETERMINANT = 287,             /* DETERMINANT  */
-    E = 288,                       /* E  */
-    ERASE = 289,                   /* ERASE  */
-    FLOAT = 290,                   /* FLOAT  */
-    H_VIEW = 291,                  /* H_VIEW  */
-    INTEGRAL_STEPS = 292,          /* INTEGRAL_STEPS  */
-    INTEGRATE = 293,               /* INTEGRATE  */
-    LINEAR_SYSTEM = 294,           /* LINEAR_SYSTEM  */
-    MATRIX = 295,                  /* MATRIX  */
-    OFF = 296,                     /* OFF  */
-    ON = 297,                      /* ON  */
-    PLOT = 298,                    /* PLOT  */
-    PRECISION = 299,               /* PRECISION  */
-    QUIT = 300,                    /* QUIT  */
-    RESET = 301,                   /* RESET  */
-    RPN = 302,                     /* RPN  */
-    SEN = 303,                     /* SEN  */
-    SET = 304,                     /* SET  */
-    SETTINGS = 305,                /* SETTINGS  */
-    SHOW = 306,                    /* SHOW  */
-    SOLVE = 307,                   /* SOLVE  */
-    SUM = 308,                     /* SUM  */
-    SYMBOLS = 309,                 /* SYMBOLS  */
-    TAN = 310,                     /* TAN  */
-    V_VIEW = 311,                  /* V_VIEW  */
-    X = 312,                       /* X  */
-    UNKNOW = 313,                  /* UNKNOW  */
-    END_OF_FILE = 314              /* END_OF_FILE  */
+    L_BRACKET = 265,               /* L_BRACKET  */
+    R_BRACKET = 266,               /* R_BRACKET  */
+    INTERVAL = 267,                /* INTERVAL  */
+    EQUALS = 268,                  /* EQUALS  */
+    ASSIGN = 269,                  /* ASSIGN  */
+    L_S_BRACKET = 270,             /* L_S_BRACKET  */
+    R_S_BRACKET = 271,             /* R_S_BRACKET  */
+    SEMICOLON = 272,               /* SEMICOLON  */
+    COLON = 273,                   /* COLON  */
+    COMMA = 274,                   /* COMMA  */
+    PI = 275,                      /* PI  */
+    EULER = 276,                   /* EULER  */
+    NUM_FLOAT = 277,               /* NUM_FLOAT  */
+    NUM_INT = 278,                 /* NUM_INT  */
+    IDENTIFIER = 279,              /* IDENTIFIER  */
+    ABOUT = 280,                   /* ABOUT  */
+    ABS = 281,                     /* ABS  */
+    AXIS = 282,                    /* AXIS  */
+    CONNECTED_DOTS = 283,          /* CONNECTED_DOTS  */
+    COS = 284,                     /* COS  */
+    DETERMINANT = 285,             /* DETERMINANT  */
+    ERASE = 286,                   /* ERASE  */
+    FLOAT = 287,                   /* FLOAT  */
+    H_VIEW = 288,                  /* H_VIEW  */
+    INTEGRAL_STEPS = 289,          /* INTEGRAL_STEPS  */
+    INTEGRATE = 290,               /* INTEGRATE  */
+    LINEAR_SYSTEM = 291,           /* LINEAR_SYSTEM  */
+    MATRIX = 292,                  /* MATRIX  */
+    OFF = 293,                     /* OFF  */
+    ON = 294,                      /* ON  */
+    PLOT = 295,                    /* PLOT  */
+    PRECISION = 296,               /* PRECISION  */
+    QUIT = 297,                    /* QUIT  */
+    RESET = 298,                   /* RESET  */
+    RPN = 299,                     /* RPN  */
+    SEN = 300,                     /* SEN  */
+    SET = 301,                     /* SET  */
+    SETTINGS = 302,                /* SETTINGS  */
+    SHOW = 303,                    /* SHOW  */
+    SOLVE = 304,                   /* SOLVE  */
+    SUM = 305,                     /* SUM  */
+    SYMBOLS = 306,                 /* SYMBOLS  */
+    TAN = 307,                     /* TAN  */
+    V_VIEW = 308,                  /* V_VIEW  */
+    X = 309,                       /* X  */
+    UNKNOW = 310,                  /* UNKNOW  */
+    END_OF_FILE = 311              /* END_OF_FILE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -126,7 +123,7 @@ union YYSTYPE
 	char *sval;
 	void *varTypes;
 
-#line 130 "bison.tab.h"
+#line 127 "bison.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -197,6 +197,12 @@ int isSquare(Matriz* m) {
 	}
 	return 0;
 }
+int linearsysFormat(Matriz* m){
+	if(m->linhas == m->colunas - 1){
+		return 1;
+	}
+	return 0;
+}
 float determinant(Matriz* m, int n) {
 	float D = 0;
 	if (n == 1) {
@@ -238,6 +244,22 @@ Matriz* LinearSystem(Matriz* m){
 			}
 		}
 	}
+	printf("Matrix after forward elimination:\n");
+	//check for infinite solutions or no solution
+	printFormatted(temp, 2);
+	///////////////////////
+	
+	if(temp->mat[temp->linhas -1][temp->colunas -2] == 0){
+		if(temp->mat[temp->linhas -1][temp->colunas -1] == 0){
+			printf("SPI - The Linear System has infinitely many solutions\n");
+			return NULL;
+		}
+		else{
+			printf("SI - The Linear System has no solution\n");
+			return NULL;
+		}
+	}
+
 	//back substitution
 	for(int i = temp->linhas - 1; i >= 0; i--){
 		resmat[i][0] = temp->mat[i][temp->colunas - 1];
@@ -246,15 +268,15 @@ Matriz* LinearSystem(Matriz* m){
 		}
 		resmat[i][0] /= temp->mat[i][i];
 	}
+	
 
 	Matriz* result = createMatriz(resmat, temp->linhas, 1);
-	freeMatriz(temp);
+	// freeMatriz(temp);
 	return result;
 	
 }
 void printLinearSystemSolution(Matriz* m, int precision){
 	if(m == NULL){
-		printf("Undefined Symbol\n");
 		return;
 	}
 	if(m->colunas != 1){
