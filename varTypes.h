@@ -14,6 +14,8 @@ typedef struct varTypes {
 
 varTypes* createVarTypes(int type, void* content);
 void printVarTypes(varTypes* content, int precision);
+void printIdentifier(varTypes* content,int precision, char* name);
+char* getKey(varTypes* content);
 float* getFloat(varTypes* a);
 Matriz* getMatriz(varTypes* a);
 
@@ -24,6 +26,8 @@ varTypes* mult(varTypes* a, varTypes* b);
 varTypes* divi(varTypes* a, varTypes* b);
 varTypes* powe(varTypes* a, varTypes* b);
 varTypes* modules(varTypes* a, varTypes* b);
+varTypes* Vmax(varTypes* a, varTypes* b);
+varTypes* Vneg(varTypes* a);
 varTypes* Vabs(varTypes* a);
 varTypes* Vsin(varTypes* a);
 varTypes* Vcos(varTypes* a);

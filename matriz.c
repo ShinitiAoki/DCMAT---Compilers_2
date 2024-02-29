@@ -94,7 +94,7 @@ Matriz* sumMatrices(Matriz* m1, Matriz* m2) {
 		return NULL;
 	}
     if (m1->linhas != m2->linhas || m1->colunas != m2->colunas) {
-        fprintf(stderr, "Matrix dimensions do not match\n");
+        printf("Matrix format incorrect!\n");
         return NULL;
     }
     float** temp = (float**)malloc(10*sizeof(float*));
@@ -191,6 +191,12 @@ void getCofactor(Matriz* m, Matriz* temp, int p, int q, int n) {
 		}
 	}
 }
+int isSquare(Matriz* m) {
+	if(m->linhas == m->colunas){
+		return 1;
+	}
+	return 0;
+}
 float determinant(Matriz* m, int n) {
 	float D = 0;
 	if (n == 1) {
@@ -213,6 +219,52 @@ float determinant(Matriz* m, int n) {
 	}
 	free(temp);
 	return D;
+}
+Matriz* LinearSystem(Matriz* m){
+	if(m == NULL){
+		return NULL;
+	}
+	Matriz* temp = createMatriz(m->mat, m->linhas, m->colunas);
+	float** resmat = NULL;
+	resmat = (float**)malloc(10*sizeof(float*));
+	for(int i = 0; i < 10; i++){
+		resmat[i] = (float*)malloc(10*sizeof(float));
+	}
+	for(int i = 0; i < m->linhas; i++){
+		for(int j = i+1; j < m->linhas; j++){
+			float ratio = temp->mat[j][i]/temp->mat[i][i];
+			for(int k = 0; k < m->colunas; k++){
+				temp->mat[j][k] -= ratio * temp->mat[i][k];
+			}
+		}
+	}
+	//back substitution
+	for(int i = temp->linhas - 1; i >= 0; i--){
+		resmat[i][0] = temp->mat[i][temp->colunas - 1];
+		for(int j = i + 1; j < temp->linhas; j++){
+			resmat[i][0] -= temp->mat[i][j] * resmat[j][0];
+		}
+		resmat[i][0] /= temp->mat[i][i];
+	}
+
+	Matriz* result = createMatriz(resmat, temp->linhas, 1);
+	freeMatriz(temp);
+	return result;
+	
+}
+void printLinearSystemSolution(Matriz* m, int precision){
+	if(m == NULL){
+		printf("Undefined Symbol\n");
+		return;
+	}
+	if(m->colunas != 1){
+		printf("format incorrect\n");
+		return;
+	}
+	printf("\n");
+	for(int i = 0; i < m->linhas; i++){
+		printf("%.*f\n", precision, m->mat[i][0]);
+	}
 }
 
 

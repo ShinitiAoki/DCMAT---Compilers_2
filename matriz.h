@@ -24,8 +24,10 @@ Matriz* multiplyMatrices(Matriz* m1, Matriz* m2);
 Matriz* multiplyByScalar(Matriz* m, float scalar);
 
 //special functions
+int isSquare(Matriz* m);
 float determinant(Matriz* m, int n);
-
+Matriz* LinearSystem(Matriz* m);
+void printLinearSystemSolution(Matriz* m, int precision);
 
 // Function to free memory allocated for a matrix
 void freeMatriz(Matriz* m);

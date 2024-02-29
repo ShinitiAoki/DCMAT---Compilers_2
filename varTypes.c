@@ -25,6 +25,22 @@ void printVarTypes(varTypes* content, int precision){
 		printFormatted(content->m, precision);
 	}
 }
+void printIdentifier(varTypes* content,int precision, char* name){
+	if(content == NULL){
+		printf("Undefined Symbol\n");
+		return;
+	}
+	if(content->type == 1){
+		float temp = *(content->f);
+		printf("%s = %f\n", name, temp);
+	}
+	else if(content->type == 2){
+		printf("\n");
+		printFormatted(content->m, precision);
+	}
+}
+
+
 float* getFloat(varTypes* a){
 	if(a == NULL){
 		return NULL;
@@ -65,13 +81,20 @@ varTypes* Vsum(varTypes* a, varTypes* b){
 			return result;
 		break;
 		case 22:
+			if (a->m->colunas != b->m->colunas || a->m->linhas != b->m->linhas)
+			{
+				printf("Incorrect dimensions for operator '+' - have MATRIX [%d][%d] and MATRIX [%d][%d]\n", a->m->linhas, a->m->colunas, b->m->linhas, b->m->colunas);
+				return NULL;
+			}
 			printf("case 2 mats. initiate Vsum\n");
 			varTypes* temp2 = createVarTypes(2, sumMatrices(a->m, b->m));
 			return temp2;
 		break;
 		case 12:
+			printf("Incorrect type for operator '+' - have FLOAT and MATRIX\n");
+			return NULL;
 		case 21:
-			printf("Invalid operation(Incompatible Types)\n");
+			printf("Incorrect type for operator '+' - have MATRIX and FLOAT\n");
 			return NULL;
 		break;
 	}
@@ -82,6 +105,7 @@ varTypes* Vsub(varTypes* a, varTypes* b){
 	if(a == NULL || b == NULL){
 		return NULL;
 	}
+	
 	int key = a->type * 10 + b->type;
 	switch (key)
 	{
@@ -92,14 +116,19 @@ varTypes* Vsub(varTypes* a, varTypes* b){
 		return result;
 		break;
 	case 22:
-		printf("case 2 mats. initiate Vsub\n");
+		if (a->m->colunas != b->m->colunas || a->m->linhas != b->m->linhas){
+			printf("Incorrect dimensions for operator '-' - have MATRIX [%d][%d] and MATRIX [%d][%d]\n", a->m->linhas, a->m->colunas, b->m->linhas, b->m->colunas);
+			return NULL;
+		}
 		varTypes* temp3 = createVarTypes(2, subtractMatrices(a->m, b->m));
 		return temp3;
 		break;
 	case 21:
+		printf("Incorrect type for operator '-' - have MATRIX and FLOAT\n");
+		return NULL;
 	case 12:
-		printf("Invalid operation(Incompatible Types)\n");
-		break;
+		printf("Incorrect type for operator '-' - have FLOAT and MATRIX\n");
+		return NULL;
 	default:
 		printf("Invalid operation\n");
 		return NULL;
@@ -203,6 +232,49 @@ varTypes* modules(varTypes* a, varTypes* b){
 		return NULL;
 	}
 }
+varTypes* Vmax(varTypes* a, varTypes* b){
+	varTypes* result = NULL;
+	if(a == NULL || b == NULL){
+		return NULL;
+	}
+	if(a->type == 1 && b->type ==1){
+		float* temp = (float*)malloc(sizeof(float));
+		*temp = fmax(*(a->f), *(b->f));
+		result = createVarTypes(1, temp);
+		return result;
+	}
+	else if(a->type == 2 && b->type == 2){
+		return NULL;
+
+	}
+	else{
+		printf("Invalid operation\n");
+		return NULL;
+	}
+
+}
+
+varTypes* Vneg(varTypes* a){
+	varTypes* result = NULL;
+	if(a == NULL){
+		return NULL;
+	}
+	if(a->type == 1){
+		float* temp = (float*)malloc(sizeof(float));
+		*temp = -(*(a->f));
+		result = createVarTypes(1, temp);
+		return result;
+	}
+	else if(a->type == 2){
+		return multiplyByScalar(a->m, -1);
+	}
+	else{
+		printf("Invalid operation\n");
+		return NULL;
+	}
+
+}
+
 varTypes* Vabs(varTypes* a){
 	varTypes* result = NULL;
 	if(a == NULL){

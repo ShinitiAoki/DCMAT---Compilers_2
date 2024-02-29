@@ -20,6 +20,7 @@
 	int in_size;
 	float** matrix;
 	Matriz* sampleText = NULL;
+	varTypes* lastInserted = NULL;
 	Hashtable* hashtable = NULL;
 	
 	float h_view_lo = -6.500000;
@@ -66,6 +67,17 @@
 		printf("Erase Plots: %s\n", erase_plots ? "ON" : "OFF");
 		printf("Connect Dots: %s\n", draw_connected_dots ? "ON" : "OFF");
 
+	}
+	void reset_settings(){
+		h_view_lo = -6.500000;
+		h_view_hi = 6.500000;
+		v_view_lo = -3.500000;
+		v_view_hi = 3.500000;
+		float_precision = 6;
+		integral_steps = 1000;
+		draw_axis = true;
+		erase_plots = true;
+		draw_connected_dots = false;
 	}
 	
 %}
@@ -170,31 +182,31 @@ begin:
 ;
 input:
 		| testMatrix { printf("finished matrix rule\n");}
-		| MATRIX EQUALS testMatrix { printf("finished matrix rule\n");}
+		| MATRIX EQUALS testMatrix { lastInserted = $3; printf("finished matrix rule\n");}
 		| reset_settings {printf(" finished reset settings rule\n");}
 		| SHOW show_options {printf("finished show rule\n");}
 		| solve_matrices { printf("finished solve matrices rule\n");}
 		| SET setters {printf(" finished set rule\n");}
-		| IDENTIFIER { printVarTypes(search(hashtable,$1),float_precision);}
+		| IDENTIFIER { printIdentifier(search(hashtable,$1), float_precision, $1); }
 		| IDENTIFIER ASSIGN assign_to { insert_update(hashtable, $1, $3); printf("finished assign\n");}
 		| PLOT plot_options { printf("finished plot\n");}
 		| QUIT {quit = 1; return 0;}
 ;
 show_options: SYMBOLS { showSymbols(hashtable); }
 		| SETTINGS {printf("\n"); show_Settings();}
-		| MATRIX {printFormatted(sampleText, float_precision);}
+		| MATRIX { if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;} printFormatted(getMatriz(lastInserted), float_precision);}
 		;
-solve_matrices: SOLVE LINEAR_SYSTEM {printf("finished solve\n");}
-		|SOLVE DETERMINANT { printf("%.*f\n", float_precision, determinant(sampleText, getMatLines(sampleText)));}
+solve_matrices: SOLVE LINEAR_SYSTEM {if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;} printLinearSystemSolution(LinearSystem(getMatriz(lastInserted)), float_precision);}
+		|SOLVE DETERMINANT { if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;}if(!isSquare(getMatriz(lastInserted))){printf("Matrix format incorrect!\n"); return 0;} ;printf("%.*f\n", float_precision, determinant(getMatriz(lastInserted), getMatLines(getMatriz(lastInserted))));}
 ;
-reset_settings: RESET SETTINGS {printf("reseted settings\n");}
+reset_settings: RESET SETTINGS { reset_settings(); }
 ;
 setters: AXIS set_axis {printf("finished axis\n");}
 		| ERASE PLOT set_erase_plot {printf("finished erase plot\n");}
 		| INTEGRAL_STEPS NUM_INT {printf("finished integral steps\n");}
 		| H_VIEW set_h_view {printf("finished h_view\n");}
 		| V_VIEW set_v_view {printf("finished v_view\n");}
-		| FLOAT PRECISION NUM_INT { float_precision = $3;}
+		| FLOAT PRECISION NUM_INT { if($3 < 0 || $3 > 8){printf("ERROR: float precision must be from 0 to 8\n"); return 0;} float_precision = $3;}
 		;
 set_h_view: number_handlers COLON number_handlers { 
 										h_view_lo = *getFloat($1);
@@ -209,14 +221,18 @@ set_v_view: number_handlers COLON number_handlers {
 }
 ;
 number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$1); $$ = value;
+		| ADD NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $2; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$2); $$ = value;
 		| SUB NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= -$2; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,-$2); $$ = value;
 		| NUM_INT { float* wrapper= malloc(sizeof(float)); *wrapper= (float)$1; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$1); $$ = value;
+		| ADD NUM_INT { float* wrapper= malloc(sizeof(float)); *wrapper= (float)$2; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$2); $$ = value;
 		| SUB NUM_INT { float* wrapper= malloc(sizeof(float)); *wrapper= (float)(-$2); varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,-$2); $$ = value;
 		| PI { float* wrapper = malloc(sizeof(float)); *wrapper = 3.14159265; varTypes* value = createVarTypes(1,wrapper); $$ = value;} //varTypes* value = createVarTypes(1,3.14159265); $$ = value;
 		| SUB PI { float* wrapper = malloc(sizeof(float)); *wrapper = -3.14159265; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,-3.14159265); $$ = value;
 		| EULER { float* wrapper = malloc(sizeof(float)); *wrapper = 2.71828182; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,2.71828182); $$ = value;
 		| SUB EULER { float* wrapper = malloc(sizeof(float)); *wrapper = -2.71828182; varTypes* value = createVarTypes(1, wrapper); $$ = value; } //varTypes* value = createVarTypes(1,-2.71828182); $$ = value;
-
+		| IDENTIFIER { if(search(hashtable,$1) == NULL){printf("Undefined Symbol [%s]\n", $1); return 0;} else{ $$ = search(hashtable,$1);}; }
+		| SUB IDENTIFIER { varTypes* value = search(hashtable,$2); $$ = Vneg(value); }
+		| X { printf("X value\n"); $$ == NULL;}
 ;
 plot_options:  {printf("finished plot\n");}
 			| L_BRACKET expresao_mat R_BRACKET {printf("finished plot w/ exp\n");}
@@ -247,7 +263,6 @@ expoente: termo { $$ = $1; }
 termo: number_handlers { $$ = $1; }
 		| ABS L_BRACKET termo R_BRACKET { $$ = Vabs($3); }
 		| L_BRACKET expresao_mat R_BRACKET { $$ = $2; }
-		| IDENTIFIER { $$ = search(hashtable,$1); }
 		| COS L_BRACKET expresao_mat R_BRACKET { $$ = Vcos($3); }
 		| SEN L_BRACKET expresao_mat R_BRACKET { $$ = Vsin($3); }
 		| TAN L_BRACKET expresao_mat R_BRACKET { $$ = Vtan($3); }
@@ -281,7 +296,7 @@ int main(int argc, char **argv){
 		m_columns = 0;
 		max_columns = 0;
 		max_lines = 0;
-		setZero(matrix,10,10);
+		setZero(matrix,20,20);
 		printf(">");
 
 		if(fgets(buffer, MAX_LINE_SIZE, stdin) == NULL){
