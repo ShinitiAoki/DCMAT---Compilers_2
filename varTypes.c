@@ -360,3 +360,26 @@ varTypes* Vtan(varTypes* a){
 	}
 	return NULL;
 }
+varTypes* Vsummation(varTypes* iterate, int low_limit, int high_limit, varTypes* last_result){
+	if(iterate == NULL){
+		return NULL;
+	}
+	if(iterate->type == 1){
+		float* temp = (float*)malloc(sizeof(float));
+		*temp = 0;
+		for(int i = low_limit; i <= high_limit; i++){
+			*temp += i;
+		}
+		varTypes* result = createVarTypes(1, temp);
+		return result;
+	}
+	else if(iterate->type == 2){
+		printf("Incorrect type for operator 'summation' - have MATRIX\n");
+		return NULL;
+	}
+	else{
+		printf("Invalid operation\n");
+		return NULL;
+	}
+	return NULL;
+}

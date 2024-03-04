@@ -79,6 +79,10 @@
 		erase_plots = true;
 		draw_connected_dots = false;
 	}
+	void about(){
+		printf("+---------------------------------+\n|     Lucas Shin-Iti Aoki         |\n|     201900560188                |\n+---------------------------------+\n\n");
+	}
+
 	
 %}
 %union{
@@ -184,12 +188,12 @@ input:
 		| IDENTIFIER { printIdentifier(search(hashtable,$1), float_precision, $1); }
 		| IDENTIFIER ASSIGN assign_to { insert_update(hashtable, $1, $3); printf("finished assign\n");}
 		| PLOT plot_options { printf("finished plot\n");}
-		| ABOUT {printf("finished about\n");}
+		| ABOUT {printf("\n"); about();}
 		| QUIT {quit = 1; return 0;}
 ;
 functions: INTEGRATE {printf("finished integrate\n");}
 		| RPN {printf("finished rpn\n");}
-		| SUM {printf("finished sum\n");}
+		| SUM L_BRACKET IDENTIFIER assign_to COMMA sum_limits COMMA expresao_mat R_BRACKET{ insert_update(hashtable,$3,$4); printf("finished sum\n");}
 		;
 show_options: SYMBOLS { showSymbols(hashtable); }
 		| SETTINGS {printf("\n"); show_Settings();}
@@ -220,6 +224,12 @@ set_v_view: number_handlers COLON number_handlers {
 										v_view_hi = *getFloat($3);
 										printf("v_view set!\n");
 }
+sum_limits: number_handlers COLON number_handlers {
+										if(*getFloat($1) >= *getFloat($3)){printf("ERROR: lower limit must be smaller than upper limit\n"); return 0;}
+										// v_view_lo = *getFloat($1);
+										// v_view_hi = *getFloat($3);
+										printf("v_view set!\n");
+}
 ;
 number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$1); $$ = value;
 		| ADD NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $2; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$2); $$ = value;
@@ -233,7 +243,7 @@ number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1
 		| SUB EULER { float* wrapper = malloc(sizeof(float)); *wrapper = -2.71828182; varTypes* value = createVarTypes(1, wrapper); $$ = value; } //varTypes* value = createVarTypes(1,-2.71828182); $$ = value;
 		| IDENTIFIER { if(search(hashtable,$1) == NULL){printf("Undefined Symbol [%s]\n", $1); return 0;} else{ $$ = search(hashtable,$1);}; }
 		| SUB IDENTIFIER { varTypes* value = search(hashtable,$2); $$ = Vneg(value); }
-		| X { printf("X value\n"); $$ == NULL;}
+		| X { printf("The x variable cannot be present on expressions\n"); return 0;}
 		;
 plot_options:  {printf("finished plot\n");}
 			| L_BRACKET expresao_mat R_BRACKET {printf("finished plot w/ exp\n");}

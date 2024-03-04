@@ -3,9 +3,9 @@ out: lexico.l bison.y
 	bison -d bison.y
 	gcc *.c -I. -lm -o out
 
-clean:
-	rm -f out
 
+clean:
+	rm -f out bison.tab.c bison.tab.h lex.yy.c
 # FLEX=flex
 # BISON=bison
 # BISON-FLAGS= -d -t
