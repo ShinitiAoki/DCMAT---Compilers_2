@@ -29,6 +29,7 @@
 	float v_view_hi = 3.500000;
 	int float_precision = 6;
 	int integral_steps = 1000;
+	int sum_lo, sum_hi =0;
 
 	bool draw_axis = true;
 	bool erase_plots = true;
@@ -39,7 +40,7 @@
 	int max_lines = 0;
 	int max_columns = 0;
 
-	void yyerror(void *s){
+	void yyerror(void *s){		
 		if(lexical_error){
 			printf("Invalid Symbol: %s\n", yytext);
 			lexical_error = 0;
@@ -175,6 +176,7 @@
 
 %%
 begin:
+	| EOL { return 0;}
 	| input SEMICOLON EOL{ return 0;}
 	| expresao_mat EOL { printVarTypes($1, float_precision); return 0;}
 ;
@@ -193,7 +195,7 @@ input:
 ;
 functions: INTEGRATE {printf("finished integrate\n");}
 		| RPN {printf("finished rpn\n");}
-		| SUM L_BRACKET IDENTIFIER assign_to COMMA sum_limits COMMA expresao_mat R_BRACKET{ insert_update(hashtable,$3,$4); printf("finished sum\n");}
+		| SUM L_BRACKET IDENTIFIER COMMA sum_limits COMMA expresao_mat R_BRACKET { } //Vsummation($3, sum_lo, sum_hi); /////insert_update(hashtable,$3,$4); printf("saved: %s\nsum_lo: %d\nsum_hi: %d\n");
 		;
 show_options: SYMBOLS { showSymbols(hashtable); }
 		| SETTINGS {printf("\n"); show_Settings();}
@@ -215,20 +217,17 @@ set_h_view: number_handlers COLON number_handlers {
 										if(*getFloat($1) >= *getFloat($3)){printf("ERROR: h_view_lo must be smaller than h_view_hi\n"); return 0;}
 										h_view_lo = *getFloat($1);
 										h_view_hi = *getFloat($3);
-										("h_view set!\n");
 										}
 ;
 set_v_view: number_handlers COLON number_handlers {
 										if(*getFloat($1) >= *getFloat($3)){printf("ERROR: v_view_lo must be smaller than v_view_hi\n"); return 0;}
 										v_view_lo = *getFloat($1);
 										v_view_hi = *getFloat($3);
-										printf("v_view set!\n");
 }
 sum_limits: number_handlers COLON number_handlers {
 										if(*getFloat($1) >= *getFloat($3)){printf("ERROR: lower limit must be smaller than upper limit\n"); return 0;}
-										// v_view_lo = *getFloat($1);
-										// v_view_hi = *getFloat($3);
-										printf("v_view set!\n");
+										sum_lo = (int)*getFloat($1);
+										sum_hi = (int)*getFloat($3);
 }
 ;
 number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1; varTypes* value = createVarTypes(1,wrapper); $$ = value; } //varTypes* value = createVarTypes(1,$1); $$ = value;
@@ -256,8 +255,8 @@ set_erase_plot: ON { erase_plots=true;}
 ;
 
 assign_to: number_handlers { $$ = $1;}
-		| testMatrix {printf("matrix assigned!\n"); $$ = $1;}
-		|expresao_mat {printf("expression assigned!\n"); $$ = $1;}
+		| testMatrix { $$ = $1;}
+		| expresao_mat { $$ = $1;}
 ;
 
 expresao_mat: fator { $$=$1; }
@@ -278,6 +277,10 @@ termo: number_handlers { $$ = $1; }
 		| COS L_BRACKET expresao_mat R_BRACKET { $$ = Vcos($3); }
 		| SEN L_BRACKET expresao_mat R_BRACKET { $$ = Vsin($3); }
 		| TAN L_BRACKET expresao_mat R_BRACKET { $$ = Vtan($3); }
+;
+
+spec_exp_string: 
+
 ;
 
 
