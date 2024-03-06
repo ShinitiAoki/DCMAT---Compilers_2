@@ -114,7 +114,6 @@ Matriz* sumMatrices(Matriz* m1, Matriz* m2) {
 // Function to subtract one matrix from another
 Matriz* subtractMatrices(Matriz* m1, Matriz* m2) {
     if (m1->linhas != m2->linhas || m1->colunas != m2->colunas) {
-        fprintf(stderr, "Matrix dimensions do not match\n");
         return NULL;
     }
     float** temp = (float**)malloc(10*sizeof(float*));
@@ -134,7 +133,6 @@ Matriz* subtractMatrices(Matriz* m1, Matriz* m2) {
 // Function to multiply two matrices
 Matriz* multiplyMatrices(Matriz* m1, Matriz* m2) {
     if (m1->colunas != m2->linhas) {
-        fprintf(stderr, "Matrix dimensions do not match for multiplication\n");
         return NULL;
     }
 	float** temp = (float**)malloc(10*sizeof(float*));
@@ -243,12 +241,7 @@ Matriz* LinearSystem(Matriz* m){
 				temp->mat[j][k] -= ratio * temp->mat[i][k];
 			}
 		}
-	}
-	printf("Matrix after forward elimination:\n");
-	//check for infinite solutions or no solution
-	printFormatted(temp, 2);
-	///////////////////////
-	
+	}	
 	if(temp->mat[temp->linhas -1][temp->colunas -2] == 0){
 		if(temp->mat[temp->linhas -1][temp->colunas -1] == 0){
 			printf("SPI - The Linear System has infinitely many solutions\n");

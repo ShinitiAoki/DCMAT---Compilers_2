@@ -3,6 +3,7 @@
 
 %{
 	#include <bison.tab.h>
+	#include "ast.h"
 
 	void input_scanner(char *input){
 		yy_scan_string(input);

@@ -86,7 +86,7 @@ varTypes* Vsum(varTypes* a, varTypes* b){
 				printf("Incorrect dimensions for operator '+' - have MATRIX [%d][%d] and MATRIX [%d][%d]\n", a->m->linhas, a->m->colunas, b->m->linhas, b->m->colunas);
 				return NULL;
 			}
-			printf("case 2 mats. initiate Vsum\n");
+			
 			varTypes* temp2 = createVarTypes(2, sumMatrices(a->m, b->m));
 			return temp2;
 		break;
@@ -130,7 +130,6 @@ varTypes* Vsub(varTypes* a, varTypes* b){
 		printf("Incorrect type for operator '-' - have FLOAT and MATRIX\n");
 		return NULL;
 	default:
-		printf("Invalid operation\n");
 		return NULL;
 		break;
 	}
@@ -149,6 +148,10 @@ varTypes* mult(varTypes* a, varTypes* b){
 			result = createVarTypes(1, temp);
 			return result;
 		case 22:
+			if(a->m->colunas != b->m->linhas){
+				printf("Incorrect dimensions for operator '*' - have MATRIX [%d][%d] and MATRIX [%d][%d]\n", a->m->linhas, a->m->colunas, b->m->linhas, b->m->colunas);
+				return NULL;
+			}
 			varTypes* twomat = createVarTypes(2, multiplyMatrices(a->m, b->m));
 			return twomat;
 		case 21:
@@ -158,7 +161,6 @@ varTypes* mult(varTypes* a, varTypes* b){
 			varTypes* scalmat = createVarTypes(2, multiplyByScalar(b->m, *(a->f)));
 			return scalmat;
 		default:
-			printf("Invalid operation\n");
 			return NULL;
 	}
 
@@ -176,12 +178,10 @@ varTypes* divi(varTypes* a, varTypes* b){
 	}
 	else if(a->type == 2 && b->type == 2){
 		return NULL;
-		// Matriz* temp = NULL;
-		// result = divideMatrices(a->m, b->m);
-		// return result;
+		
 	}
 	else{
-		printf("Invalid operation\n");
+		
 		return NULL;
 	}
 
@@ -199,12 +199,10 @@ varTypes* powe(varTypes* a, varTypes* b){
 	}
 	else if(a->type == 2 && b->type == 2){
 		return NULL;
-		// Matriz* temp = NULL;
-		// result = powMatrices(a->m, b->m);
-		// return result;
+		
 	}
 	else{
-		printf("Invalid operation\n");
+		
 		return NULL;
 	}
 
@@ -228,7 +226,6 @@ varTypes* modules(varTypes* a, varTypes* b){
 		// return result;
 	}
 	else{
-		printf("Invalid operation\n");
 		return NULL;
 	}
 }
@@ -248,7 +245,7 @@ varTypes* Vmax(varTypes* a, varTypes* b){
 
 	}
 	else{
-		printf("Invalid operation\n");
+		
 		return NULL;
 	}
 
@@ -270,7 +267,7 @@ varTypes* Vneg(varTypes* a){
 		return result;
 	}
 	else{
-		printf("Invalid operation\n");
+		
 		return NULL;
 	}
 
@@ -289,12 +286,8 @@ varTypes* Vabs(varTypes* a){
 	}
 	else if(a->type == 2){
 		return NULL;
-		// Matriz* temp = NULL;
-		// result = absMatrices(a->m);
-		// return result;
 	}
 	else{
-		printf("Invalid operation\n");
 		return NULL;
 	}
 
@@ -316,7 +309,6 @@ varTypes* Vsin(varTypes* a){
 		return NULL;
 	}
 	else{
-		printf("Invalid operation\n");
 		return NULL;
 	}
 	return NULL;
@@ -336,7 +328,6 @@ varTypes* Vcos(varTypes* a){
 		return NULL;
 	}
 	else{
-		printf("Invalid operation\n");
 		return NULL;
 	}
 }
@@ -355,31 +346,12 @@ varTypes* Vtan(varTypes* a){
 		return NULL;
 	}
 	else{
-		printf("Invalid operation\n");
+
 		return NULL;
 	}
 	return NULL;
 }
-varTypes* Vsummation(varTypes* iterate, int low_limit, int high_limit, varTypes* last_result){
-	if(iterate == NULL){
-		return NULL;
-	}
-	if(iterate->type == 1){
-		float* temp = (float*)malloc(sizeof(float));
-		*temp = 0;
-		for(int i = low_limit; i <= high_limit; i++){
-			*temp += i;
-		}
-		varTypes* result = createVarTypes(1, temp);
-		return result;
-	}
-	else if(iterate->type == 2){
-		printf("Incorrect type for operator 'summation' - have MATRIX\n");
-		return NULL;
-	}
-	else{
-		printf("Invalid operation\n");
-		return NULL;
-	}
+varTypes* Vsummation(int low_limit, int high_limit){
+	
 	return NULL;
 }

@@ -9,6 +9,7 @@
 typedef struct varTypes {
 	int type; //1 to float, 2 to matriz, 3 to error.
 	float* f;
+	char* exp;
 	Matriz *m;
 } varTypes;
 

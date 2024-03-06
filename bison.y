@@ -5,6 +5,7 @@
 	#include "hashtable.h"
 	#include <math.h>
 	#include "matriz.h"
+	#include "ast.h"
 	#define MAX_LINE_SIZE 10000
 	#define max(a,b) (a) > (b) ? (a) : (b)
 
@@ -84,13 +85,15 @@
 		printf("+---------------------------------+\n|     Lucas Shin-Iti Aoki         |\n|     201900560188                |\n+---------------------------------+\n\n");
 	}
 
-	
+	TreeNode* AST = NULL;
+
 %}
 %union{
 	int ival;
 	float fval;
 	char *sval;
 	void *varTypes;
+	void* ast;
 }
 
 %token EOL
@@ -121,12 +124,18 @@
 %token <ival> NUM_INT
 %type <varTypes> assign_to
 %type <varTypes> number_handlers
-/* %type <fval> funcao_mat */
 %type <varTypes> expresao_mat
 %type <varTypes> fator
 %type <varTypes> termo
 %type <varTypes> expoente
-/* %type <fval> testing */
+
+%type <ast> fator2
+%type <ast> rpn_exp
+%type <ast> expoente2
+%type <ast> termo2
+%type <ast> number_handlers2
+
+
 %type <fval> vector
 %type <fval> numSequence
 %type <fval> vecSequence
@@ -178,25 +187,60 @@
 begin:
 	| EOL { return 0;}
 	| input SEMICOLON EOL{ return 0;}
-	| expresao_mat EOL { printVarTypes($1, float_precision); return 0;}
+	| expresao_mat EOL { if($1 == NULL){return 0;} printVarTypes($1, float_precision); return 0;}
 ;
 input:
-		| functions {printf("finished functions\n");}
-		| MATRIX EQUALS testMatrix { lastInserted = $3; printf("finished matrix rule\n");}
-		| reset_settings {printf(" finished reset settings rule\n");}
-		| SHOW show_options {printf("finished show rule\n");}
-		| solve_matrices { printf("finished solve matrices rule\n");}
-		| SET setters {printf(" finished set rule\n");}
+		| functions { }
+		| MATRIX EQUALS testMatrix { lastInserted = $3;}
+		| reset_settings { }
+		| SHOW show_options { }
+		| solve_matrices { }
+		| SET setters { }
 		| IDENTIFIER { printIdentifier(search(hashtable,$1), float_precision, $1); }
-		| IDENTIFIER ASSIGN assign_to { insert_update(hashtable, $1, $3); printf("finished assign\n");}
-		| PLOT plot_options { printf("finished plot\n");}
+		| IDENTIFIER ASSIGN assign_to { if($3 == NULL){return 0;} insert_update(hashtable, $1, $3); printf("%.*f\n", float_precision, *getFloat($3));}
+		| PLOT plot_options { }
 		| ABOUT {printf("\n"); about();}
 		| QUIT {quit = 1; return 0;}
 ;
-functions: INTEGRATE {printf("finished integrate\n");}
-		| RPN {printf("finished rpn\n");}
-		| SUM L_BRACKET IDENTIFIER COMMA sum_limits COMMA expresao_mat R_BRACKET { } //Vsummation($3, sum_lo, sum_hi); /////insert_update(hashtable,$3,$4); printf("saved: %s\nsum_lo: %d\nsum_hi: %d\n");
+functions: INTEGRATE { }
+		| RPN L_BRACKET rpn_exp R_BRACKET { AST = $3; printf("Expression in RPN format:\n"); RPN_Walk(AST);printf("\n");}
+		| SUM L_BRACKET IDENTIFIER COMMA sum_limits COMMA rpn_exp R_BRACKET { AST = $7;  } //Vsummation($3, sum_lo, sum_hi); /////insert_update(hashtable,$3,$4); printf("saved: %s\nsum_lo: %d\nsum_hi: %d\n");
 		;
+
+rpn_exp: fator2 { $$=$1; }
+		| rpn_exp ADD fator2 { $$ = createTreeNode(ADD, $1, $3, 0); }
+		| rpn_exp SUB fator2 { $$ = createTreeNode(SUB, $1, $3, 0); }
+;
+fator2: expoente2 { $$ = $1; }
+		| fator2 MULT expoente2 { $$ = createTreeNode(MULT, $1, $3, 0);}
+		| fator2 DIV expoente2 { $$ = createTreeNode(DIV, $1, $3, 0);}
+		| fator2 MOD expoente2 { $$ = createTreeNode(MOD, $1, $3, 0);}
+;
+expoente2: termo2 { $$ = $1; }
+		|expoente2 EXP termo2 { $$ = createTreeNode(EXP, $1, $3, 0);}
+		;
+termo2: number_handlers2 { $$ = $1; }
+		| ABS L_BRACKET termo2 R_BRACKET { $$ = createTreeNode(ABS, $3, NULL, 0);}
+		| L_BRACKET rpn_exp R_BRACKET { $$ = $2; }
+		| COS L_BRACKET rpn_exp R_BRACKET { $$ = createTreeNode(COS, $3, NULL, 0); }
+		| SEN L_BRACKET rpn_exp R_BRACKET { $$ = createTreeNode(SEN, $3, NULL, 0);}
+		| TAN L_BRACKET rpn_exp R_BRACKET { $$ = createTreeNode(TAN, $3, NULL, 0);}
+;
+number_handlers2: NUM_FLOAT {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, $1);}
+				| NUM_INT {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, (float)$1);}
+				| PI {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, 3.14159265);}
+				| EULER {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, 2.71828182);}
+				| IDENTIFIER { $$ = createTreeNodeIdent(IDENTIFIER, NULL, NULL, $1);}
+				| SUB NUM_FLOAT {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, -$2);}
+				| SUB NUM_INT {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, (float)-$2);}
+				| SUB PI {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, -3.14159265);}
+				| SUB EULER {$$ = createTreeNode(NUM_FLOAT, NULL, NULL, -2.71828182);}
+				| X {$$ = createTreeNode(X, NULL, NULL, 0);}
+;
+
+
+
+
 show_options: SYMBOLS { showSymbols(hashtable); }
 		| SETTINGS {printf("\n"); show_Settings();}
 		| MATRIX { if(lastInserted == NULL){printf("No Matrix defined!\n");return 0;} printFormatted(getMatriz(lastInserted), float_precision);}
@@ -206,11 +250,11 @@ solve_matrices: SOLVE LINEAR_SYSTEM {if(lastInserted == NULL){printf("No Matrix 
 ;
 reset_settings: RESET SETTINGS { reset_settings(); }
 ;
-setters: AXIS set_axis {printf("finished axis\n");}
-		| ERASE PLOT set_erase_plot {printf("finished erase plot\n");}
+setters: AXIS set_axis { }
+		| ERASE PLOT set_erase_plot { }
 		| INTEGRAL_STEPS number_handlers { if(*getFloat($2) <= 0){printf("integral_steps must be a positive non-zero integer\n"); return 0;} integral_steps = *getFloat($2);}
-		| H_VIEW set_h_view {printf("finished h_view\n");}
-		| V_VIEW set_v_view {printf("finished v_view\n");}
+		| H_VIEW set_h_view { }
+		| V_VIEW set_v_view { }
 		| FLOAT PRECISION NUM_INT { if($3 < 0 || $3 > 8){printf("ERROR: float precision must be from 0 to 8\n"); return 0;} float_precision = $3;}
 		;
 set_h_view: number_handlers COLON number_handlers { 
@@ -244,8 +288,8 @@ number_handlers: NUM_FLOAT { float* wrapper= malloc(sizeof(float)); *wrapper= $1
 		| SUB IDENTIFIER { varTypes* value = search(hashtable,$2); $$ = Vneg(value); }
 		| X { printf("The x variable cannot be present on expressions\n"); return 0;}
 		;
-plot_options:  {printf("finished plot\n");}
-			| L_BRACKET expresao_mat R_BRACKET {printf("finished plot w/ exp\n");}
+plot_options:  { }
+			| L_BRACKET expresao_mat R_BRACKET { }
 			;
 set_axis: ON { draw_axis=true;}
 		| OFF { draw_axis=false; }
@@ -278,11 +322,6 @@ termo: number_handlers { $$ = $1; }
 		| SEN L_BRACKET expresao_mat R_BRACKET { $$ = Vsin($3); }
 		| TAN L_BRACKET expresao_mat R_BRACKET { $$ = Vtan($3); }
 ;
-
-spec_exp_string: 
-
-;
-
 
 vector: L_S_BRACKET numSequence R_S_BRACKET {   m_lines++;
 												max_columns = max(max_columns,m_columns);
@@ -325,6 +364,7 @@ int main(int argc, char **argv){
 	/* printf("Bye!\n");
 	printHashtable(hashtable, float_precision); */
 	freeHashtable(hashtable);
+	Delete_Tree(AST);
 
 	return 0;
 }

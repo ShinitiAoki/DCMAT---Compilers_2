@@ -28,7 +28,7 @@ Hashtable* createHashtable(){
 }
 
 void insert_update(Hashtable* ht, char* key, varTypes* content){
-	if(ht == NULL){
+	if(ht == NULL || key == NULL || content == NULL){
 		return;
 	}
 	int index = hash_function(key);
@@ -54,7 +54,7 @@ void insert_update(Hashtable* ht, char* key, varTypes* content){
 
 
 varTypes* search(Hashtable *ht, char *key){
-	if(ht == NULL){
+	if(ht == NULL || key == NULL){
 		return NULL;
 	}
 	int index = hash_function(key);
